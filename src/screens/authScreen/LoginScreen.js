@@ -14,8 +14,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {loginUser} from '../../redux/actions/auth';
 import {useDispatch, useSelector} from 'react-redux';
-
-// import {CheckBox, Icon} from '@rneui/themed';
 import {useNavigation} from '@react-navigation/native';
 import colors from '../../colors/colors';
 import {FormInput, PasswordInput, CustomButton} from '../../components';

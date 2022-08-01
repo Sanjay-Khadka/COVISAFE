@@ -1,11 +1,12 @@
 import {login, logout, register} from '../actions/auth';
-
+import {fetchUser} from '../actions/manageuser';
 const initialState = {
   Login: [],
   authToken: null,
   Register: [],
   ResetPassword: {},
   changePassword: {},
+  Users: [],
 };
 const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -22,6 +23,10 @@ const AuthReducer = (state = initialState, action) => {
     case register:
       return {
         Register: action.payload,
+      };
+    case fetchUser:
+      return {
+        Users: action.payload,
       };
     default:
       return state;
