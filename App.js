@@ -9,8 +9,8 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {/* <Main /> */}
-        <UsersPanel />
+        <Main />
+        {/* <UsersPanel /> */}
       </NavigationContainer>
     </Provider>
   );

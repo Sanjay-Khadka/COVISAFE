@@ -2,10 +2,21 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Feather';
-import {HomeScreen, ProfileScreen} from '../screens';
+import {
+  HomeScreen,
+  ProfileScreen,
+  UsersPanel,
+  createBed,
+  createOxygen,
+  dashboard,
+  requests,
+  approvedRequests,
+} from '../screens';
+import {useSelector} from 'react-redux';
 const Tab = createBottomTabNavigator();
-
 const BottomTab = () => {
+  const {userdata} = useSelector(state => state.authReducer.Login);
+  console.log(userdata.isAdmin);
   return (
     <Tab.Navigator
       screenOptions={{

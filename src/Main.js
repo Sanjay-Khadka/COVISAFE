@@ -4,6 +4,7 @@ import {ScreenNav, BottomTab} from './routes';
 import {useSelector} from 'react-redux';
 const Main = () => {
   const token = useSelector(state => state.authReducer.Login);
+
   const userToken = token?.token;
   // const userToken = 1;
   return (
