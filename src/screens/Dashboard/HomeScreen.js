@@ -12,9 +12,9 @@ const HomeScreen = () => {
   const gotoHome = () => {
     dispatch(logoutUser());
   };
-  useEffect(() => {
-    getCovidData();
-  }, []);
+  // useEffect(() => {
+  //   getCovidData();
+  // }, []);
 
   const getCovidData = async () => {
     try {
