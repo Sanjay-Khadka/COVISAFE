@@ -1,11 +1,11 @@
 import {LoginScreen, SignupScreen} from './authScreen';
 import {HomeScreen, ProfileScreen} from './Dashboard';
 import {
-  approvedRequests,
-  createOxygen,
-  requests,
-  createBed,
-  dashboard,
+  ApprovedRequests,
+  CreateOxygen,
+  Requests,
+  CreateBed,
+  Dashboard,
   UsersPanel,
 } from './adminPanel';
 export {
@@ -13,10 +13,10 @@ export {
   SignupScreen,
   HomeScreen,
   ProfileScreen,
-  approvedRequests,
-  createBed,
-  createOxygen,
-  requests,
-  dashboard,
+  ApprovedRequests,
+  CreateBed,
+  CreateOxygen,
+  Requests,
+  Dashboard,
   UsersPanel,
 };

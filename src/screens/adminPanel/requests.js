@@ -1,7 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-const requests = () => {
+const Requests = () => {
   return (
     <View>
       <Text>requests</Text>
@@ -9,4 +9,4 @@ const requests = () => {
   );
 };
 
-export default requests;
+export default Requests;

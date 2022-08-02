@@ -1,7 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-const createBed = () => {
+const CreateBed = () => {
   return (
     <View>
       <Text>createBed</Text>
@@ -9,4 +9,4 @@ const createBed = () => {
   );
 };
 
-export default createBed;
+export default CreateBed;

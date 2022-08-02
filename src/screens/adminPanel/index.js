@@ -1,15 +1,15 @@
-import approvedRequests from './approvedRequests';
-import createBed from './createBed';
-import dashboard from './dashboard';
-import requests from './requests';
+import ApprovedRequests from './approvedRequests';
+import CreateBed from './createBed';
+import Dashboard from './dashboard';
+import Requests from './requests';
 import UsersPanel from './UsersPanel';
-import createOxygen from './createOxygen';
+import CreateOxygen from './createOxygen';
 
 export {
-  approvedRequests,
-  createBed,
-  dashboard,
-  requests,
+  ApprovedRequests,
+  CreateBed,
+  Dashboard,
+  Requests,
   UsersPanel,
-  createOxygen,
+  CreateOxygen,
 };

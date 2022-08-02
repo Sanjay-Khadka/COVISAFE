@@ -1,7 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-const createOxygen = () => {
+const CreateOxygen = () => {
   return (
     <View>
       <Text>createOxygen</Text>
@@ -9,4 +9,4 @@ const createOxygen = () => {
   );
 };
 
-export default createOxygen;
+export default CreateOxygen;

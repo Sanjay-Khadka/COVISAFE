@@ -13,7 +13,6 @@ import {
   getUserList,
   deleteUser,
   setLoading,
-  hideLoading,
 } from '../../redux/actions/manageuser';
 import {useDispatch, useSelector} from 'react-redux';
 import {Dimensions} from 'react-native';
@@ -22,20 +21,21 @@ import {ScrollView} from 'react-native-gesture-handler';
 const {height, width} = Dimensions.get('window');
 
 const UsersPanel = () => {
-  const userToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmJkOTNlMDg2OWU3ZDY4OTBjYTNmMzAiLCJpYXQiOjE2NTkzNTMyMTF9.ua__5l-HNurOjNIW1QZbxhg8Ioes9x5BATN0X-cVrrs';
+  const token = useSelector(state => state.authReducer.Login);
+
+  const userToken = token?.token;
+
   const data = useSelector(state => state.manageUserReducer.Users);
   const loaderValue = useSelector(state => state.manageUserReducer.Loading);
   const isLoading = loaderValue?.loading;
 
-  console.log(isLoading);
   const dispatch = useDispatch();
 
   const fetchUsers = () => {
     dispatch(setLoading());
     dispatch(getUserList());
   };
-  const removeUser = (details_id, userToken) => {
+  const removeUser = details_id => {
     dispatch(setLoading());
     dispatch(deleteUser(details_id, userToken));
     dispatch(getUserList());

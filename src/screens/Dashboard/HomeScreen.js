@@ -22,9 +22,9 @@ const HomeScreen = () => {
         'https://disease.sh/v3/covid-19/countries/nepal?fbclid=IwAR0BGBSLpQtBvhYTEzgtoxQaCZBFuutSDYo3nGsZISxRTNPLHbnDsbhISGY',
       );
       setCovidData(data);
-      console.warn(covidData);
+      console.log(covidData);
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
   return (

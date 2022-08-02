@@ -17,7 +17,7 @@ export const loginUser = logindata => {
 
     try {
       const {data} = await axios(config);
-      console.warn(data);
+      // console.warn(data);
       dispatch({type: login, payload: data});
     } catch (error) {
       console.warn(error);

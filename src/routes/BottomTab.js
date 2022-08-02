@@ -1,49 +1,110 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/dist/Feather';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {
   HomeScreen,
   ProfileScreen,
   UsersPanel,
-  createBed,
-  createOxygen,
-  dashboard,
-  requests,
-  approvedRequests,
+  CreateBed,
+  CreateOxygen,
+  Dashboard,
+  Requests,
+  ApprovedRequests,
 } from '../screens';
 import {useSelector} from 'react-redux';
 const Tab = createBottomTabNavigator();
 const BottomTab = () => {
   const {userdata} = useSelector(state => state.authReducer.Login);
-  console.log(userdata.isAdmin);
+  const isAdmin = userdata?.isAdmin;
+  console.log(isAdmin);
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        headerStyle: {
-          backgroundColor: '#227c9d',
+        tabBarStyle: {
+          height: 60,
         },
-        headerTintColor: '#FFFD',
       }}>
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <Icon color={color} name="home" size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <Icon color={color} name="user" size={size} />
-          ),
-        }}
-      />
+      {isAdmin ? (
+        <>
+          <Tab.Screen
+            name="Dashboard"
+            component={Dashboard}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="dashboard" size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Users"
+            component={UsersPanel}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="users" size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Approved"
+            component={ApprovedRequests}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="check-square" size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Requests"
+            component={Requests}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="list" size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Oxygen"
+            component={CreateOxygen}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="circle-thin" size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Bed"
+            component={CreateBed}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="bed" size={size} />
+              ),
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="home" size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="user" size={size} />
+              ),
+            }}
+          />
+        </>
+      )}
     </Tab.Navigator>
   );
 };
