@@ -4,7 +4,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 import {View, Text, StyleSheet, Image} from 'react-native';
-import {CustomButton, ToggleButton} from '../../components';
+import {CasesContainer, CustomButton, ToggleButton} from '../../components';
 import {useDispatch} from 'react-redux';
 import {logoutUser} from '../../redux/actions/auth';
 import colors from '../../colors/colors';
@@ -16,9 +16,9 @@ const Dashboard = () => {
   const [total, setTotal] = useState(true);
   const [today, setToday] = useState(false);
 
-  setInterval(() => {
+  useEffect(() => {
     getCovidData();
-  }, 5000);
+  }, []);
 
   const handleTotalButton = () => {
     setTotal(!total);
@@ -36,7 +36,6 @@ const Dashboard = () => {
         'https://disease.sh/v3/covid-19/countries/nepal?fbclid=IwAR0BGBSLpQtBvhYTEzgtoxQaCZBFuutSDYo3nGsZISxRTNPLHbnDsbhISGY',
       );
       setCovidData(data);
-      // console.log(covidData);
     } catch (error) {
       console.log(error);
     }
@@ -65,47 +64,64 @@ const Dashboard = () => {
           />
         </View>
         <View style={styles.cardcontainer}>
-          <View style={styles.totalcase}>
-            <Image
-              // style={styles.logo}
-              style={styles.icons}
-              source={require('../../assets/Corona.png')}
-            />
-            <Text style={styles.details}>Total cases: {covidData.cases} </Text>
-          </View>
-          <View style={styles.totalrecovered}>
-            <Image
-              // style={styles.logo}
-              style={styles.icons}
-              source={require('../../assets/Protection.png')}
-            />
-            <Text style={styles.details}>
-              Total recovered: {covidData.recovered}
-            </Text>
-          </View>
-          <View style={styles.totalactive}>
-            <Image
-              // style={styles.logo}
-              style={styles.icons}
-              source={require('../../assets/Droplet.png')}
-            />
-            <Text style={styles.details}>
-              Active cases: {covidData.active}{' '}
-            </Text>
-          </View>
-          <View style={styles.totaldeaths}>
-            <Image
-              // style={styles.logo}
-              style={styles.icons}
-              source={require('../../assets/Death.png')}
-            />
-            <Text style={styles.detailsdeath}>
-              Total deaths: {covidData.deaths}
-            </Text>
-          </View>
+          {!today ? (
+            <>
+              <CasesContainer
+                labelText="Total Cases"
+                value={covidData.cases}
+                backgroundColor={'#1e6091'}
+                textColor={'white'}
+              />
+              <CasesContainer
+                labelText="Total Recovered"
+                value={covidData.recovered}
+                backgroundColor={'#99d98c'}
+                textColor={'white'}
+              />
+              <CasesContainer
+                labelText="Total Active"
+                value={covidData.active}
+                backgroundColor={'#9a8c98'}
+                textColor={'white'}
+              />
+              <CasesContainer
+                labelText="Total Deaths"
+                value={covidData.deaths}
+                backgroundColor={'#fef9ef'}
+                textColor={'#9a031e'}
+              />
+            </>
+          ) : (
+            <>
+              <CasesContainer
+                labelText="Today Cases"
+                value={covidData.todayCases}
+                backgroundColor={'#00b4d8'}
+                textColor={'white'}
+              />
+              <CasesContainer
+                labelText="Today Recovered"
+                value={covidData.todayRecovered}
+                backgroundColor={'#80ed99'}
+                textColor={'white'}
+              />
+              <CasesContainer
+                labelText="Today Active"
+                value={covidData.active}
+                backgroundColor={'#ffbc42'}
+                textColor={'white'}
+              />
+              <CasesContainer
+                labelText="Today Deaths"
+                value={covidData.todayDeaths}
+                backgroundColor={'#dc2f02'}
+                textColor={'white'}
+              />
+            </>
+          )}
         </View>
+        <CustomButton labelText="Logout" handleOnPress={logout} />
       </View>
-      <CustomButton labelText="Logout" handleOnPress={logout} />
     </View>
   );
 };
@@ -131,6 +147,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'relative',
     top: 80,
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   cardcontainer: {
     marginTop: 85,

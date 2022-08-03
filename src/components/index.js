@@ -3,4 +3,12 @@ import NavigationHeader from './NavigationHeader';
 import PasswordInput from './PasswordInput';
 import CustomButton from './Button';
 import ToggleButton from './ToggleButton';
-export {FormInput, PasswordInput, CustomButton, NavigationHeader, ToggleButton};
+import CasesContainer from './CasesContainer';
+export {
+  FormInput,
+  PasswordInput,
+  CustomButton,
+  NavigationHeader,
+  ToggleButton,
+  CasesContainer,
+};

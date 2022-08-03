@@ -57,27 +57,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
   },
   inactivetext: {
+    letterSpacing: 2,
     textAlign: 'center',
     fontSize: 14,
     color: '#457b9d',
     fontFamily: 'WorkSans-Regular',
     fontWeight: '400',
     marginLeft: 10,
-  },
-  inactive: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 35,
-    width: width / 2,
-    backgroundColor: '#FFFFFF',
-    // borderRadius: 30,
-  },
-  activebutton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 35,
-    width: width / 2,
-    backgroundColor: '#004277',
-    // borderRadius: 30,
   },
 });

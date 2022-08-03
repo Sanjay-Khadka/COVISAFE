@@ -51,7 +51,7 @@ const UsersPanel = () => {
         </View>
       ) : (
         <ScrollView style={styles.userscroll}>
-          {data.map(details => (
+          {data.map((details, index) => (
             <View style={styles.userdetailsbox}>
               <View style={{display: 'flex', flex: 5}}>
                 <Text style={styles.userdetailstext}>
