@@ -1,31 +1,22 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Dimensions,
-  TouchableOpacity,
-  StyleSheet,
-  Touchable,
-} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Dimensions} from 'react-native';
+
 import colors from '../colors/colors';
-import Icon from 'react-native-vector-icons/Ionicons';
-const {width, height} = Dimensions.get('window');
-const FormInput = ({
+
+const {height, width} = Dimensions.get('window');
+
+const MiniFormInput = ({
+  error = false,
   labelText = '',
   placeholderText = '',
-  onChangeText,
-  value,
-  error,
-  KeyboardType = '',
-  errorMessage,
-  secureTextEntry = null,
-  onBlur,
+  onChangeText = null,
+  value = '',
+  onBlur = '',
   style,
   ...more
 }) => {
   return (
-    <View style={{marginTop: 8}}>
+    <View>
       <View style={[{...style}, styles.labelscontainer]}>
         <Text style={styles.labelstyle}>{labelText}</Text>
         {error ? <Text style={styles.errormsg}>{error}</Text> : null}
@@ -38,7 +29,7 @@ const FormInput = ({
           // placeholderTextColor="#2971AB"
           onChangeText={onChangeText}
           value={value}
-          onBlur={onBlur}
+          // onBlur={onBlur}
           {...more}
         />
       </View>
@@ -46,24 +37,21 @@ const FormInput = ({
   );
 };
 
-export default FormInput;
+export default MiniFormInput;
 
 const styles = StyleSheet.create({
+  labelscontainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
   labelstyle: {
     fontFamily: 'WorkSans-Regular',
     color: colors.primary,
     fontSize: 14,
     marginBottom: 3,
   },
-  input: {
-    fontFamily: 'WorkSans-Regular',
-    fontSize: 12,
-    color: '#2971AB',
-    width: width - 70,
-  },
   viewcontainer: {
     padding: 8,
-    width: width - 20,
     height: 55,
     borderWidth: 1,
     borderColor: 'red',
@@ -78,7 +66,6 @@ const styles = StyleSheet.create({
   },
   viewcontainer1: {
     padding: 8,
-    width: width - 20,
     height: 55,
     backgroundColor: '#EBF9FF',
     borderRadius: 5,
@@ -89,13 +76,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  labelscontainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  errormsg: {
-    color: 'red',
-    fontSize: 12,
+  input: {
     fontFamily: 'WorkSans-Regular',
+    fontSize: 12,
+    color: '#2971AB',
+    width: width - 70,
   },
 });
