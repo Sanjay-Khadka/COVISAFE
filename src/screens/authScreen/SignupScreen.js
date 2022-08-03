@@ -50,13 +50,11 @@ const SignupScreen = () => {
       validationSchema={validationSchema}
       onSubmit={(values, formikActions) => {
         var registerData = JSON.stringify({
-          user: {
-            fullname: values.firstname,
-            email: values.registerEmail,
-            password: values.registerPassword,
-          },
+          fullname: values.fullname,
+          email: values.registerEmail,
+          password: values.registerPassword,
         });
-        dispatch(registerUser(registerData));
+        dispatch(registerUser(registerData)), console.log(registerData);
       }}>
       {({handleChange, handleSubmit, handleBlur, touched, values, errors}) => {
         const {fullname, registerEmail, registerPassword} = values;
