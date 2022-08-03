@@ -1,15 +1,19 @@
 import axios from 'axios';
 import {url} from '../../constants';
+
+export const removeBed = 'removeBed';
 export const addBed = 'addBed';
 export const getbeds = 'getbeds';
 
 export const createBed = (bedData, authToken) => {
   return async dispatch => {
+    console.log(bedData);
     var config = {
       method: 'post',
       url: `${url}/bed/createBed`,
       headers: {
         'auth-token': authToken,
+        'Content-Type': 'application/json',
       },
       data: bedData,
     };
@@ -35,6 +39,24 @@ export const getAllBed = () => {
       const {data} = await axios(config);
       dispatch({type: getbeds, payload: data});
       // console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const deleteBed = bed_id => {
+  console.log(bed_id);
+  return async dispatch => {
+    var config = {
+      method: 'delete',
+      url: `${url}/bed/${bed_id}`,
+      headers: {},
+    };
+    try {
+      const {data} = await axios(config);
+      dispatch({type: removeBed, payload: data});
+      console.log(data);
     } catch (err) {
       console.log(err);
     }

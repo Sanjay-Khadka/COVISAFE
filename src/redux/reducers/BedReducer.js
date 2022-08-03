@@ -1,7 +1,8 @@
-import {getbeds, addBed} from '../actions/manageBed';
+import {getbeds, addBed, removeBed} from '../actions/manageBed';
 const bedInitial = {
   Beds: [],
   bedAddStatus: {},
+  bedDeleteStatus: {},
 };
 const BedsReducer = (state = bedInitial, action) => {
   switch (action.type) {
@@ -17,7 +18,12 @@ const BedsReducer = (state = bedInitial, action) => {
         bedAddStatus: action.payload,
       };
     }
-
+    case removeBed: {
+      return {
+        ...state,
+        bedDeleteStatus: action.payload,
+      };
+    }
     default:
       return state;
   }

@@ -10,6 +10,8 @@ import {
 import {Modal} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
 import {
   NavigationHeader,
@@ -17,38 +19,55 @@ import {
   MiniFormInput,
   CustomButton,
 } from '../../components';
-import {getAllBed} from '../../redux/actions/manageBed';
+import {getAllBed, createBed, deleteBed} from '../../redux/actions/manageBed';
 import colors from '../../colors/colors';
 const {height, width} = Dimensions.get('window');
 
+const validationSchema = Yup.object({
+  hospitalName: Yup.string().trim().required('Hospital name required'),
+  bedNumber: Yup.number('Please enter a numeric value').required(
+    'bed number is required',
+  ),
+  hospitalAddress: Yup.string()
+    .trim()
+    .required('please enter hospital address'),
+});
+
 const CreateBed = () => {
   const [isVisible, setVisibility] = useState(false);
-  const beds = useSelector(state => state.bedsReducer.Beds);
-  console.log(beds);
+
+  const bedDetails = {
+    hospitalName: '',
+    bedNumber: null,
+    hospitalAddress: '',
+  };
+  const token = useSelector(state => state.authReducer.Login);
+  const userToken = token?.token;
+  // console.log(userToken);
+  const bed = useSelector(state => state.bedsReducer.Beds);
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log('this ran');
     dispatch(getAllBed());
   }, []);
 
   const cancelSubmit = () => {
     setVisibility(false);
-    console.warn(isVisible);
   };
 
-  const handleSubmit = () => {
-    setVisibility(true);
-    console.warn(isVisible);
+  const bedRemove = beds_id => {
+    // console.log(beds_id);
+    dispatch(deleteBed(beds_id));
+    // dispatch();
   };
-
   const openForm = () => {
     setVisibility(true);
-    console.warn(isVisible);
   };
   return (
     <View style={styles.maincontainer}>
       <NavigationHeader Title="Beds" />
       <ScrollView style={styles.bedsContainer}>
-        {beds.map(beds => (
+        {bed.map(beds => (
           <View style={styles.bedDetails}>
             <View>
               <Text style={styles.bedText}>Bed Number: {beds.bedNumber}</Text>
@@ -57,7 +76,9 @@ const CreateBed = () => {
               <Text style={styles.bedText}>{beds.address}</Text>
             </View>
             <View>
-              <TouchableOpacity style={styles.deletebutton}>
+              <TouchableOpacity
+                style={styles.deletebutton}
+                onPress={() => bedRemove(beds._id)}>
                 <Icon color={'#c1121f'} name="trash" size={30} />
                 <Text style={{color: 'black', fontWeight: 'bold'}}>Delete</Text>
               </TouchableOpacity>
@@ -72,43 +93,81 @@ const CreateBed = () => {
           handleOnPress={openForm}
         />
       </View>
-      <Modal
-        visible={isVisible}
-        dismissable={false}
-        contentContainerStyle={styles.modalcontainer}>
-        <View style={styles.modalInnerView}>
-          <Text style={styles.formheader}> Bed Form</Text>
-          <MiniFormInput
-            style={styles.forminput}
-            placeholderText="hospital name"
-            labelText="Hospital name"
-          />
+      <Formik
+        initialValues={bedDetails}
+        validationSchema={validationSchema}
+        onSubmit={(values, formikActions) => {
+          var bedData = JSON.stringify({
+            address: values.hospitalAddress,
+            bedNumber: values.bedNumber,
+            hospital: values.hospitalName,
+          });
+          // console.log(bedData);
+          dispatch(createBed(bedData, userToken));
+          setVisibility(false);
+        }}>
+        {({
+          handleChange,
+          handleSubmit,
+          handleBlur,
+          touched,
+          values,
+          errors,
+        }) => {
+          const {hospitalName, bedNumber, hospitalAddress} = values;
+          return (
+            <Modal
+              visible={isVisible}
+              dismissable={false}
+              contentContainerStyle={styles.modalcontainer}>
+              <View style={styles.modalInnerView}>
+                <Text style={styles.formheader}> Bed Form</Text>
+                <MiniFormInput
+                  error={touched.hospitalName && errors.hospitalName}
+                  value={hospitalName}
+                  onChangeText={handleChange('hospitalName')}
+                  onBlur={handleBlur('hospitalName')}
+                  style={styles.forminput}
+                  placeholderText="hospital name"
+                  labelText="Hospital name"
+                />
 
-          <MiniFormInput
-            style={styles.forminput}
-            placeholderText="bed Number"
-            labelText="Bed Number"
-          />
-          <MiniFormInput
-            style={styles.forminput}
-            placeholderText="address"
-            labelText="Address"
-          />
-          <View>
-            <CustomButton
-              labelText="Submit"
-              style={styles.submitbutton}
-              handleOnPress={handleSubmit}
-            />
-            <CustomButton
-              labelText="Cancel"
-              style={styles.cancelbutton}
-              handleOnPress={cancelSubmit}
-            />
-          </View>
-        </View>
-        {/* </View> */}
-      </Modal>
+                <MiniFormInput
+                  error={touched.hospitalAddress && errors.hospitalAddress}
+                  value={hospitalAddress}
+                  onChangeText={handleChange('hospitalAddress')}
+                  onBlur={handleBlur('hospitalAddress')}
+                  style={styles.forminput}
+                  placeholderText="hospital address"
+                  labelText="Hospital Address"
+                />
+                <MiniFormInput
+                  error={touched.bedNumber && errors.bedNumber}
+                  value={bedNumber}
+                  onChangeText={handleChange('bedNumber')}
+                  onBlur={handleBlur('bedNumber')}
+                  style={styles.forminput}
+                  placeholderText="bed number"
+                  labelText="Bed Number"
+                />
+                <View>
+                  <CustomButton
+                    labelText="Submit"
+                    style={styles.submitbutton}
+                    handleOnPress={handleSubmit}
+                  />
+                  <CustomButton
+                    labelText="Cancel"
+                    style={styles.cancelbutton}
+                    handleOnPress={cancelSubmit}
+                  />
+                </View>
+              </View>
+              {/* </View> */}
+            </Modal>
+          );
+        }}
+      </Formik>
     </View>
   );
 };

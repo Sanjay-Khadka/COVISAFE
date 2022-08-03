@@ -6,7 +6,7 @@ import colors from '../colors/colors';
 const {height, width} = Dimensions.get('window');
 
 const MiniFormInput = ({
-  error = false,
+  error,
   labelText = '',
   placeholderText = '',
   onChangeText = null,
@@ -29,7 +29,7 @@ const MiniFormInput = ({
           // placeholderTextColor="#2971AB"
           onChangeText={onChangeText}
           value={value}
-          // onBlur={onBlur}
+          onBlur={onBlur}
           {...more}
         />
       </View>
@@ -81,5 +81,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#2971AB',
     width: width - 70,
+  },
+  errormsg: {
+    color: 'red',
+    fontSize: 12,
+    fontFamily: 'WorkSans-Regular',
   },
 });
