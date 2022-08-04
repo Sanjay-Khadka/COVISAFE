@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {Modal} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,6 +23,7 @@ import {
 } from '../../components';
 import {getAllBed, createBed, deleteBed} from '../../redux/actions/manageBed';
 import colors from '../../colors/colors';
+import {setLoading, hideLoading} from '../../redux/actions/manageuser';
 const {height, width} = Dimensions.get('window');
 
 const validationSchema = Yup.object({
@@ -36,7 +38,6 @@ const validationSchema = Yup.object({
 
 const CreateBed = () => {
   const [isVisible, setVisibility] = useState(false);
-
   const bedDetails = {
     hospitalName: '',
     bedNumber: null,
@@ -60,7 +61,7 @@ const CreateBed = () => {
   const bedRemove = beds_id => {
     // console.log(beds_id);
     dispatch(deleteBed(beds_id));
-    // dispatch();
+    dispatch(getAllBed());
   };
   const openForm = () => {
     setVisibility(true);
@@ -68,6 +69,7 @@ const CreateBed = () => {
   return (
     <View style={styles.maincontainer}>
       <NavigationHeader Title="Beds" />
+
       <ScrollView style={styles.bedsContainer}>
         {bed.map((beds, index) => (
           <View key={index} style={styles.bedDetails}>
@@ -88,6 +90,7 @@ const CreateBed = () => {
           </View>
         ))}
       </ScrollView>
+
       <View styles={{backgroundColor: 'white'}}>
         <FloatingButton
           buttonLabel="Bed +"
@@ -105,8 +108,11 @@ const CreateBed = () => {
             hospital: values.hospitalName,
           });
           // console.log(bedData);
-          dispatch(createBed(bedData, userToken));
+
           setVisibility(false);
+
+          dispatch(createBed(bedData, userToken));
+          dispatch(getAllBed());
         }}>
         {({
           handleChange,
@@ -177,6 +183,11 @@ const CreateBed = () => {
 export default CreateBed;
 
 const styles = StyleSheet.create({
+  loadingView: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+  },
   maincontainer: {
     flex: 1,
     // alignItems: 'center',

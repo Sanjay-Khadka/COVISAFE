@@ -4,6 +4,7 @@ import {
   removeOxygen,
   makeOxygenRequest,
   fetchOxygenRequest,
+  authorizedOxygenRequest,
 } from '../actions/manageoxygen';
 const oxygenInitial = {
   Oxygens: [],
@@ -11,6 +12,7 @@ const oxygenInitial = {
   oxygenDeleteStatus: {},
   OxygenRequestList: [],
   oxygenRequestStatus: {},
+  approvedOxygen: {},
 };
 const OxygenReducer = (state = oxygenInitial, action) => {
   switch (action.type) {
@@ -42,6 +44,12 @@ const OxygenReducer = (state = oxygenInitial, action) => {
       return {
         ...state,
         oxygenRequestStatus: action.payload,
+      };
+    }
+    case authorizedOxygenRequest: {
+      return {
+        ...state,
+        approvedOxygen: action.payload,
       };
     }
     default:

@@ -29,13 +29,9 @@ import colors from '../../colors/colors';
 const {height, width} = Dimensions.get('window');
 
 const validationSchema = Yup.object({
-  volume: Yup.number('please enter a numeric value').required(
-    'volume is required',
-  ),
+  volume: Yup.number().required('volume is required'),
 
-  cylinderNumber: Yup.number('please enter a numeric value').required(
-    'cylinder number is required',
-  ),
+  cylinderNumber: Yup.number().required('cylinder number is required'),
 });
 
 const CreateOxygen = () => {
@@ -59,10 +55,10 @@ const CreateOxygen = () => {
     setVisibility(false);
   };
 
-  const bedRemove = oxygen_id => {
+  const oxygenRemove = oxygen_id => {
     // console.log(oxygenlist_id);
     dispatch(deleteOxygen(oxygen_id));
-    // dispatch();
+    dispatch(getOxygen());
   };
   const openForm = () => {
     setVisibility(true);
@@ -92,7 +88,7 @@ const CreateOxygen = () => {
             <View>
               <TouchableOpacity
                 style={styles.deletebutton}
-                onPress={() => bedRemove(oxygenlist._id)}>
+                onPress={() => oxygenRemove(oxygenlist._id)}>
                 <Icon color={'#c1121f'} name="trash" size={30} />
                 <Text style={{color: 'black', fontWeight: 'bold'}}>Delete</Text>
               </TouchableOpacity>
@@ -115,9 +111,10 @@ const CreateOxygen = () => {
             volume: values.volume,
             cylinderNumber: values.cylinderNumber,
           });
-          console.log(oxygenData);
-          dispatch(createOxygen(oxygenData));
+          // console.log(oxygenData);
           setVisibility(false);
+          dispatch(createOxygen(oxygenData));
+          dispatch(getOxygen());
         }}>
         {({
           handleChange,

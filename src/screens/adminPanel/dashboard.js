@@ -21,6 +21,12 @@ const Dashboard = () => {
   const [total, setTotal] = useState(true);
   const [today, setToday] = useState(false);
 
+  const bedrequestlist = useSelector(state => state.bedsReducer.BedRequestList);
+  var bedreqlen = bedrequestlist.length;
+  const oxygenrequestlist = useSelector(
+    state => state.oxygenReducer.OxygenRequestList,
+  );
+  var oxygenreqlen = oxygenrequestlist.length;
   const beds = useSelector(state => state.bedsReducer.Beds);
   var bedlength = beds.length;
   const oxygens = useSelector(state => state.oxygenReducer.Oxygens);
@@ -147,12 +153,12 @@ const Dashboard = () => {
         </View>
         <View>
           <BubbleText
-            bubbleValue="40"
+            bubbleValue={oxygenreqlen}
             label="Oxygen Requests"
             backgroundColor={'#fb8500'}
           />
           <BubbleText
-            bubbleValue="40"
+            bubbleValue={bedreqlen}
             label="Bed Requests"
             style={styles.Requests}
             backgroundColor={'#fb8500'}

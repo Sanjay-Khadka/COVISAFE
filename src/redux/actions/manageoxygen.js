@@ -6,6 +6,7 @@ export const fetchOxygen = 'fetchOxygen';
 export const removeOxygen = 'removeOxygen';
 export const fetchOxygenRequest = 'fetchOxygenRequest';
 export const makeOxygenRequest = 'makeOxygenRequest';
+export const authorizedOxygenRequest = 'authorizedOxygenRequest';
 export const createOxygen = oxygenData => {
   return async dispatch => {
     var config = {
@@ -92,6 +93,24 @@ export const createOxygenRequest = (oxygenId, userId, requestUrgency) => {
     try {
       const {data} = await axios(config);
       dispatch({type: makeOxygenRequest, payload: data});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const acceptOxygenRequest = oxygenrequestId => {
+  console.log(oxygenrequestId);
+  var config = {
+    method: 'put',
+    url: `${url}/apOxygen/${oxygenrequestId}`,
+    headers: {},
+  };
+  return async dispatch => {
+    try {
+      const {data} = await axios(config);
+      console.log(data);
+      dispatch({type: authorizedOxygenRequest, payload: data});
     } catch (err) {
       console.log(err);
     }
