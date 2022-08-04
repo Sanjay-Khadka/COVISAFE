@@ -52,7 +52,7 @@ const UsersPanel = () => {
       ) : (
         <ScrollView style={styles.userscroll}>
           {data.map((details, index) => (
-            <View style={styles.userdetailsbox}>
+            <View key={index} style={styles.userdetailsbox}>
               <View style={{display: 'flex', flex: 5}}>
                 <Text style={styles.userdetailstext}>
                   Full Name: {details.fullname}

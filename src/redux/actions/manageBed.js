@@ -56,7 +56,7 @@ export const deleteBed = bed_id => {
     try {
       const {data} = await axios(config);
       dispatch({type: removeBed, payload: data});
-      console.log(data);
+      console.log(data?.success);
     } catch (err) {
       console.log(err);
     }

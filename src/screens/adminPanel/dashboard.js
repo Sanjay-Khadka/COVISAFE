@@ -4,8 +4,13 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 import {View, Text, StyleSheet, Image} from 'react-native';
-import {CasesContainer, CustomButton, ToggleButton} from '../../components';
-import {useDispatch} from 'react-redux';
+import {
+  CasesContainer,
+  CustomButton,
+  ToggleButton,
+  BubbleText,
+} from '../../components';
+import {useDispatch, useSelector} from 'react-redux';
 import {logoutUser} from '../../redux/actions/auth';
 import colors from '../../colors/colors';
 
@@ -16,6 +21,11 @@ const Dashboard = () => {
   const [total, setTotal] = useState(true);
   const [today, setToday] = useState(false);
 
+  const beds = useSelector(state => state.bedsReducer.Beds);
+  var bedlength = beds.length;
+  const oxygens = useSelector(state => state.oxygenReducer.Oxygens);
+  var oxygenLength = oxygens.length;
+  var bedlength = beds.length;
   useEffect(() => {
     getCovidData();
   }, []);
@@ -48,7 +58,7 @@ const Dashboard = () => {
     <View style={styles.maincontainer}>
       <View style={styles.halfcontainer}>
         <View style={styles.topHeader}>
-          <Text style={styles.covidText}>Covid-19</Text>
+          <Text style={styles.covidText}>COVISAFE</Text>
           <Icon color={'white'} name="user-circle" size={30} />
         </View>
         <View style={styles.toggles}>
@@ -120,8 +130,49 @@ const Dashboard = () => {
             </>
           )}
         </View>
-        <CustomButton labelText="Logout" handleOnPress={logout} />
       </View>
+      <View style={styles.bubblesContainer}>
+        <View>
+          <BubbleText
+            bubbleValue={oxygenLength}
+            label="Total Oxygens"
+            style={styles.Totals}
+            backgroundColor={colors.primary}
+          />
+          <BubbleText
+            bubbleValue={bedlength}
+            label="Total Beds"
+            backgroundColor={colors.primary}
+          />
+        </View>
+        <View>
+          <BubbleText
+            bubbleValue="40"
+            label="Oxygen Requests"
+            backgroundColor={'#fb8500'}
+          />
+          <BubbleText
+            bubbleValue="40"
+            label="Bed Requests"
+            style={styles.Requests}
+            backgroundColor={'#fb8500'}
+          />
+        </View>
+
+        <View>
+          <BubbleText
+            bubbleValue="40"
+            label=" Approved Bed Requests"
+            backgroundColor={'#99d98c'}
+          />
+          <BubbleText
+            bubbleValue="40"
+            label=" Approved O2 Requests"
+            backgroundColor={'#99d98c'}
+          />
+        </View>
+      </View>
+      <CustomButton labelText="Logout" handleOnPress={logout} />
     </View>
   );
 };
@@ -138,7 +189,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 25,
   },
   maincontainer: {
-    // justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
   },
   toggles: {
@@ -158,65 +209,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  totalcase: {
-    // alignItems: 'center',?\
-    justifyContent: 'center',
-    backgroundColor: '#1e6091',
-    height: 90,
-    width: 165,
-    margin: 5,
-    elevation: 10,
-    borderRadius: 10,
-    padding: 7,
-  },
-  totalrecovered: {
-    // alignItems: 'center',?\
-    justifyContent: 'center',
-    backgroundColor: '#99d98c',
-    height: 90,
-    width: 165,
-    margin: 5,
-    elevation: 10,
-    borderRadius: 10,
-    padding: 7,
-  },
-  totalactive: {
-    justifyContent: 'center',
-    backgroundColor: '#9a8c98',
-    height: 90,
-    width: 165,
-    margin: 5,
-    elevation: 10,
-    borderRadius: 10,
-    padding: 7,
-  },
-  totaldeaths: {
-    justifyContent: 'center',
-    backgroundColor: '#fef9ef',
-    height: 90,
-    width: 165,
-    margin: 5,
-    elevation: 10,
-    borderRadius: 10,
-    padding: 7,
-  },
-
-  details: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  detailsdeath: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#9a031e',
-  },
-  icons: {
-    margin: 2,
-    height: 30,
-    width: 30,
-    // backgroundColor: 'black'
-  },
   topHeader: {
     position: 'absolute',
     padding: 10,
@@ -234,5 +226,15 @@ const styles = StyleSheet.create({
     // textAlign: 'left',
     // marginTop: 25,
     marginLeft: 5,
+  },
+  bubblesContainer: {
+    elevation: 2,
+    margin: 40,
+    width: width,
+    display: 'flex',
+    // flexWrap: 'wrap',
+    flexDirection: 'row',
+    // alignItems: 'center',
+    justifyContent: 'center',
   },
 });

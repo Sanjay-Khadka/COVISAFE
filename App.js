@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {Store as store} from './src/redux/store';
 import Main from './src/Main';
+import {Requests} from './src/screens';
 
 import CasesContainer from './src/components/CasesContainer';
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Main />
+        {/* <Requests /> */}
       </NavigationContainer>
     </Provider>
   );

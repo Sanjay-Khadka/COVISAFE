@@ -6,6 +6,9 @@ import ToggleButton from './ToggleButton';
 import CasesContainer from './CasesContainer';
 import FloatingButton from './FloatingButton';
 import MiniFormInput from './MiniFormInput';
+import BubbleText from './BubbleText';
+import OxygenRequest from './OxygenRequest';
+import BedRequest from './BedRequest';
 export {
   FormInput,
   PasswordInput,
@@ -15,4 +18,7 @@ export {
   CasesContainer,
   FloatingButton,
   MiniFormInput,
+  BubbleText,
+  OxygenRequest,
+  BedRequest,
 };

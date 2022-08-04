@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -49,6 +50,7 @@ const CreateBed = () => {
   useEffect(() => {
     console.log('this ran');
     dispatch(getAllBed());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cancelSubmit = () => {
@@ -67,8 +69,8 @@ const CreateBed = () => {
     <View style={styles.maincontainer}>
       <NavigationHeader Title="Beds" />
       <ScrollView style={styles.bedsContainer}>
-        {bed.map(beds => (
-          <View style={styles.bedDetails}>
+        {bed.map((beds, index) => (
+          <View key={index} style={styles.bedDetails}>
             <View>
               <Text style={styles.bedText}>Bed Number: {beds.bedNumber}</Text>
               <Text style={styles.bedText}>Hospital: {beds.hospital}</Text>
@@ -183,6 +185,7 @@ const styles = StyleSheet.create({
   floatingbutton: {
     bottom: 10,
     marginLeft: 250,
+    backgroundColor: colors.primary,
   },
   modalcontainer: {
     justifyContent: 'center',
