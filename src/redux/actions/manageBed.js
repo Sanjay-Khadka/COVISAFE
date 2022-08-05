@@ -6,6 +6,7 @@ export const getbeds = 'getbeds';
 export const fetchBedRequest = 'fetchBedRequest';
 export const authorizedBedRequest = 'authorizedBed';
 export const makeBedRequest = 'makeBedRequest';
+export const removebedReq = 'removebedReq';
 
 export const createBed = (bedData, authToken) => {
   return async dispatch => {
@@ -114,6 +115,24 @@ export const acceptBedRequest = BedRequestId => {
       const {data} = await axios(config);
       console.log(data);
       dispatch({type: authorizedBedRequest, payload: data});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const deletebedReq = bedreqId => {
+  console.log(bedreqId);
+  var config = {
+    method: 'delete',
+    url: `${url}/bedReq/delete/${bedreqId}`,
+    headers: {},
+  };
+  return async dispatch => {
+    try {
+      const {data} = await axios(config);
+      console.log(data);
+      dispatch({type: removebedReq, payload: data});
     } catch (err) {
       console.log(err);
     }
