@@ -9,17 +9,18 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import colors from '../colors/colors';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Icon from 'react-native-vector-icons/dist/Octicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLoading} from '../redux/actions/manageuser';
-import {getBedRequestList, acceptBedRequest} from '../redux/actions/manageBed';
+import {
+  getBedRequestList,
+  acceptBedRequest,
+  deletebedReq,
+} from '../redux/actions/manageBed';
 import CustomButton from './Button';
 
-const {width} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
-const OxygenRequest = () => {
-  const loaderValue = useSelector(state => state.manageUserReducer.Loading);
-  const isLoading = loaderValue?.loading;
+const BedRequest = () => {
   const dispatch = useDispatch();
 
   const bedrequestlist = useSelector(state => state.bedsReducer.BedRequestList);
@@ -30,71 +31,88 @@ const OxygenRequest = () => {
   }, []);
 
   const approveBedRequest = bedId => {
-    // console.log(bedId);
     dispatch(acceptBedRequest(bedId));
+    dispatch(getBedRequestList());
+  };
+
+  const deletebedReqFunc = bedId => {
+    dispatch(deletebedReq(bedId));
+    dispatch(getBedRequestList());
   };
 
   return (
     <View style={styles.maincontainer}>
-      <ScrollView style={styles.bedreqlist}>
-        {bedrequestlist.map((bedreqli, index) => (
-          <View key={index} style={styles.bedReqDetails}>
-            {/* <Text> Oxygen Request Details</Text> */}
-            <View>
-              <Text style={styles.bedreqText}>
-                Request :{bedreqli.request_type.title}
-              </Text>
-              <Text style={styles.bedreqText}>
-                Hospital: {bedreqli.request_type.hospital}
-              </Text>
-              <Text style={styles.bedreqText}>
-                Bed Number: {bedreqli.request_type.bedNumber}
-              </Text>
-              <Text style={styles.bedreqText}>Hospital Address:</Text>
-              <Text style={styles.bedreqText}>
-                {bedreqli.request_type.address}
-              </Text>
-            </View>
-            <View>
-              <Text style={styles.bedreqText}>
-                Requested By :{bedreqli.requestedBy.fullname}
-              </Text>
-            </View>
-            <Text style={styles.bedreqText}>
-              Requested At: {bedreqli.requestedAt}
-            </Text>
-            <Text style={styles.bedreqText}>
-              Request Status:{'  '}
-              {bedreqli.requestStatus === 'pending' ? (
-                <Text style={[styles.bedreqText, {color: 'yellow'}]}>
-                  {bedreqli.requestStatus}
+      {bedrequestlist.length === 0 ? (
+        <View style={styles.emptyView}>
+          <Text style={styles.emptyViewMessage}>
+            Bed request list is empty !
+          </Text>
+        </View>
+      ) : (
+        <>
+          <ScrollView style={styles.bedreqlist}>
+            {bedrequestlist.map((bedreqli, index) => (
+              <View key={index} style={styles.bedReqDetails}>
+                {/* <Text> Oxygen Request Details</Text> */}
+                <View>
+                  <Text style={styles.bedreqText}>
+                    Request :{bedreqli.request_type.title}
+                  </Text>
+                  <Text style={styles.bedreqText}>
+                    Hospital: {bedreqli.request_type.hospital}
+                  </Text>
+                  <Text style={styles.bedreqText}>
+                    Bed Number: {bedreqli.request_type.bedNumber}
+                  </Text>
+                  <Text style={styles.bedreqText}>Hospital Address:</Text>
+                  <Text style={styles.bedreqText}>
+                    {bedreqli.request_type.address}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.bedreqText}>
+                    Requested By :{bedreqli.requestedBy.fullname}
+                  </Text>
+                </View>
+                <Text style={styles.bedreqText}>
+                  Requested At: {bedreqli.requestedAt}
                 </Text>
-              ) : (
-                <Text style={[styles.bedreqText, {color: 'green'}]}>
-                  {bedreqli.requestStatus}
+                <Text style={styles.bedreqText}>
+                  Request Status:{'  '}
+                  {bedreqli.requestStatus === 'pending' ? (
+                    <Text style={[styles.bedreqText, {color: '#fb8500'}]}>
+                      {bedreqli.requestStatus}{' '}
+                      <Icon color={'#fb8500'} name="unverified" size={15} />
+                    </Text>
+                  ) : (
+                    <Text style={[styles.bedreqText, {color: 'green'}]}>
+                      {bedreqli.requestStatus}{' '}
+                      <Icon color={'green'} name="verified" size={15} />
+                    </Text>
+                  )}
                 </Text>
-              )}
-            </Text>
-            <View style={styles.buttonContainer}>
-              <CustomButton
-                labelText="Approve request"
-                style={styles.submitbutton}
-                handleOnPress={() => approveBedRequest(bedreqli._id)}
-              />
-              <CustomButton
-                labelText="Delete request"
-                style={styles.cancelbutton}
-                // handleOnPress={cancelSubmit}
-              />
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+                <View style={styles.buttonContainer}>
+                  <CustomButton
+                    labelText="Approve request"
+                    style={styles.submitbutton}
+                    handleOnPress={() => approveBedRequest(bedreqli._id)}
+                  />
+                  <CustomButton
+                    labelText="Delete request"
+                    style={styles.cancelbutton}
+                    handleOnPress={() => deletebedReqFunc(bedreqli._id)}
+                  />
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 };
 
-export default OxygenRequest;
+export default BedRequest;
 
 const styles = StyleSheet.create({
   bedReqDetails: {
@@ -112,7 +130,7 @@ const styles = StyleSheet.create({
   },
   bedreqlist: {
     width: width,
-    height: 100,
+    // height: 100,
   },
   bedreqText: {
     fontSize: 17,
@@ -134,5 +152,19 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: 20,
+  },
+  emptyView: {
+    // backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    flex: 2,
+    height: height,
+    // backgroundColor: 'white',
+  },
+  emptyViewMessage: {
+    // fontWeight: '',
+    fontSize: 20,
+    color: colors.smalltext,
   },
 });
