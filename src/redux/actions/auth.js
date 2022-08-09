@@ -1,10 +1,11 @@
+/* eslint-disable no-lone-blocks */
 import axios from 'axios';
 import {ToastAndroid} from 'react-native';
-import {Alert} from 'react-native';
 import {url} from '../../constants';
 export const login = 'login';
 export const register = 'register';
 export const logout = 'logout';
+export const updateUserName = 'updateUserName';
 export const loginUser = logindata => {
   return async dispatch => {
     var config = {
@@ -75,6 +76,42 @@ export const registerUser = registerData => {
             )
           : ToastAndroid.showWithGravity(
               'what is this ',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+};
+
+export const changeFullName = (nameData, token, userid) => {
+  return async dispatch => {
+    var config = {
+      method: 'put',
+      url: `${url}/user/user/${userid}`,
+      headers: {
+        'auth-token': token,
+        'Content-Type': 'application/json',
+      },
+      data: nameData,
+    };
+
+    try {
+      const {data} = await axios(config);
+      console.log(nameData, token, userid);
+      console.warn(data);
+      dispatch({type: updateUserName});
+      {
+        data._id
+          ? ToastAndroid.showWithGravity(
+              `Fullname changed successfully ${data.fullname} `,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'could not change name  ',
               ToastAndroid.LONG,
               ToastAndroid.TOP,
             );

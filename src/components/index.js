@@ -11,6 +11,7 @@ import OxygenRequest from './OxygenRequest';
 import BedRequest from './BedRequest';
 import UserBedRequest from './UserBedRequest';
 import UserOxygenRequest from './UserOxygenRequest';
+import EditProfile from './EditProfile';
 export {
   FormInput,
   PasswordInput,
@@ -25,4 +26,5 @@ export {
   BedRequest,
   UserBedRequest,
   UserOxygenRequest,
+  EditProfile,
 };

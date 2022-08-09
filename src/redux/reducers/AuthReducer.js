@@ -1,4 +1,4 @@
-import {login, logout, register} from '../actions/auth';
+import {login, logout, register, updateUserName} from '../actions/auth';
 
 const initialState = {
   Login: [],
@@ -21,6 +21,10 @@ const AuthReducer = (state = initialState, action) => {
     case register:
       return {
         Register: action.payload,
+      };
+    case updateUserName:
+      return {
+        ...state,
       };
 
     default:

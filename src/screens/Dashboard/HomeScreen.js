@@ -20,7 +20,8 @@ const Dashboard = () => {
   const [covidData, setCovidData] = useState('');
   const [total, setTotal] = useState(true);
   const [today, setToday] = useState(false);
-
+  const {userdata} = useSelector(state => state.authReducer.Login);
+  const fullname = userdata?.fullname;
   const bedrequestlist = useSelector(state => state.bedsReducer.BedRequestList);
   var bedreqlen = bedrequestlist.length;
   const oxygenrequestlist = useSelector(
@@ -57,15 +58,16 @@ const Dashboard = () => {
     }
   };
   const dispatch = useDispatch();
-  const logout = () => {
-    dispatch(logoutUser());
-  };
+  // const logout = () => {
+  //   dispatch(logoutUser());
+  // };
   return (
     <View style={styles.maincontainer}>
       <View style={styles.halfcontainer}>
         <View style={styles.topHeader}>
           <Text style={styles.covidText}>COVISAFE</Text>
-          <Icon color={'white'} name="user-circle" size={30} />
+          {/* <Icon color={'white'} name="user-circle" size={30} /> */}
+          <Text style={styles.name}>{fullname}</Text>
         </View>
         <View style={styles.toggles}>
           <ToggleButton
@@ -138,7 +140,7 @@ const Dashboard = () => {
         </View>
       </View>
       <View style={styles.bubblesContainer}>
-        <View>
+        {/* <View>
           <BubbleText
             bubbleValue={oxygenLength}
             label="Total Oxygens"
@@ -176,9 +178,13 @@ const Dashboard = () => {
             label=" Approved O2 Requests"
             backgroundColor={'#99d98c'}
           />
-        </View>
+        </View> */}
+        <Image
+          style={styles.tinyLogo}
+          source={require('../../assets/covidPrevent.jpg')}
+        />
       </View>
-      <CustomButton labelText="Logout" handleOnPress={logout} />
+      {/* <CustomButton labelText="Logout" handleOnPress={logout} /> */}
     </View>
   );
 };
@@ -242,5 +248,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // alignItems: 'center',
     justifyContent: 'center',
+  },
+  name: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  tinyLogo: {
+    height: height / 2.51,
+    width: 400,
   },
 });
