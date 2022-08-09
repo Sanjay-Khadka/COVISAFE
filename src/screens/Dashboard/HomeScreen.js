@@ -140,48 +140,10 @@ const Dashboard = () => {
         </View>
       </View>
       <View style={styles.bubblesContainer}>
-        {/* <View>
-          <BubbleText
-            bubbleValue={oxygenLength}
-            label="Total Oxygens"
-            style={styles.Totals}
-            backgroundColor={colors.primary}
-          />
-          <BubbleText
-            bubbleValue={bedlength}
-            label="Total Beds"
-            backgroundColor={colors.primary}
-          />
-        </View>
-        <View>
-          <BubbleText
-            bubbleValue={oxygenreqlen}
-            label="Oxygen Requests"
-            backgroundColor={'#fb8500'}
-          />
-          <BubbleText
-            bubbleValue={bedreqlen}
-            label="Bed Requests"
-            style={styles.Requests}
-            backgroundColor={'#fb8500'}
-          />
-        </View>
-
-        <View>
-          <BubbleText
-            bubbleValue="40"
-            label=" Approved Bed Requests"
-            backgroundColor={'#99d98c'}
-          />
-          <BubbleText
-            bubbleValue="40"
-            label=" Approved O2 Requests"
-            backgroundColor={'#99d98c'}
-          />
-        </View> */}
+        <Text style={styles.info}>Covid-19 Prevention</Text>
         <Image
           style={styles.tinyLogo}
-          source={require('../../assets/covidPrevent.jpg')}
+          source={require('../../assets/halfimage.jpg')}
         />
       </View>
       {/* <CustomButton labelText="Logout" handleOnPress={logout} /> */}
@@ -241,11 +203,11 @@ const styles = StyleSheet.create({
   },
   bubblesContainer: {
     elevation: 2,
-    margin: 40,
+    margin: 25,
     width: width,
     display: 'flex',
     // flexWrap: 'wrap',
-    flexDirection: 'row',
+    // flexDirection: 'row',
     // alignItems: 'center',
     justifyContent: 'center',
   },
@@ -255,7 +217,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tinyLogo: {
-    height: height / 2.51,
-    width: 400,
+    height: height / 2.7,
+    width: width,
+  },
+  info: {
+    color: colors.primary,
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingBottom: 18,
+    marginTop: -16,
+    textAlign: 'center',
   },
 });
