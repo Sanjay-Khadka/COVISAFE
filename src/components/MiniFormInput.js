@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   viewcontainer: {
     padding: 8,
-    height: 55,
+    height: 47,
     borderWidth: 1,
     borderColor: 'red',
     backgroundColor: '#EBF9FF',
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   viewcontainer1: {
     padding: 8,
-    height: 55,
+    height: 47,
     backgroundColor: '#EBF9FF',
     borderRadius: 5,
     justifyContent: 'space-between',
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
+    height: 40,
     fontFamily: 'WorkSans-Regular',
     fontSize: 12,
     color: '#2971AB',

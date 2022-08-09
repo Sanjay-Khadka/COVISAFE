@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import SelectList from 'react-native-dropdown-select-list';
 import {Modal} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -23,39 +24,64 @@ import {
 } from '../../components';
 import {getAllBed, createBed, deleteBed} from '../../redux/actions/manageBed';
 import colors from '../../colors/colors';
-import {setLoading, hideLoading} from '../../redux/actions/manageuser';
 const {height, width} = Dimensions.get('window');
 
 const validationSchema = Yup.object({
-  hospitalName: Yup.string().trim().required('Hospital name required'),
-  bedNumber: Yup.number('Please enter a numeric value').required(
-    'bed number is required',
-  ),
-  hospitalAddress: Yup.string()
-    .trim()
-    .required('please enter hospital address'),
+  // hospitalName: Yup.string().trim().required('Hospital name required'),
+  bedNumber: Yup.number()
+    .required('bed number is required')
+    .positive()
+    .integer(),
+  // hospitalAddress: Yup.string()
+  //   .trim()
+  //   .required('please enter hospital address'),
 });
 
 const CreateBed = () => {
   const [isVisible, setVisibility] = useState(false);
+  const [selectedhospital, setHospitalValue] = useState('');
+  const [selectedaddress, setAddress] = useState('');
   const bedDetails = {
-    hospitalName: '',
+    hospitalName: selectedhospital,
     bedNumber: null,
     hospitalAddress: '',
   };
+
+  const hospital = [
+    {key: 'KMC', value: 'KMC'},
+    {key: 'Helping Hands', value: 'Helping Hands'},
+    {key: 'Teaching Hospital', value: 'Teaching Hospital'},
+    {key: 'Bir Hospital', value: 'Bir Hospital'},
+    {key: 'Hetauda Hospital', value: 'Hetauda Hospital'},
+    {key: 'Dhulikhel Hospital', value: 'Dhulikhel Hospital'},
+    {key: 'Nidan Hospital', value: 'Nidan Hospital'},
+    {key: 'Bhaktapur Hospital', value: 'Bhaktapur Hospital'},
+  ];
+
+  const address = [
+    {key: 'Kathmandu', value: 'Kathmandu'},
+    {key: 'Bhaktapur', value: 'Bhaktapur'},
+    {key: 'Lalitpur', value: 'Lalitpur'},
+    {key: 'Makwanpur', value: 'Makwanpur'},
+    {key: 'Kavre', value: 'Kavre'},
+    {key: 'Patan', value: 'Patan'},
+  ];
   const token = useSelector(state => state.authReducer.Login);
   const userToken = token?.token;
   // console.log(userToken);
   const bed = useSelector(state => state.bedsReducer.Beds);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('this ran');
     dispatch(getAllBed());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cancelSubmit = () => {
     setVisibility(false);
+  };
+
+  const submitForm = bedData => {
+    console.log(bedData);
   };
 
   const bedRemove = beds_id => {
@@ -101,15 +127,16 @@ const CreateBed = () => {
       <Formik
         initialValues={bedDetails}
         validationSchema={validationSchema}
-        onSubmit={(values, formikActions) => {
+        onSubmit={values => {
           var bedData = JSON.stringify({
-            address: values.hospitalAddress,
+            address: selectedaddress,
             bedNumber: values.bedNumber,
-            hospital: values.hospitalName,
+            hospital: selectedhospital,
           });
           // console.log(bedData);
 
           setVisibility(false);
+          // submitForm(bedData);
 
           dispatch(createBed(bedData, userToken));
           dispatch(getAllBed());
@@ -122,32 +149,53 @@ const CreateBed = () => {
           values,
           errors,
         }) => {
-          const {hospitalName, bedNumber, hospitalAddress} = values;
+          const {bedNumber} = values;
           return (
             <Modal
               visible={isVisible}
               dismissable={false}
               contentContainerStyle={styles.modalcontainer}>
               <View style={styles.modalInnerView}>
-                <Text style={styles.formheader}> Bed Form</Text>
-                <MiniFormInput
-                  error={touched.hospitalName && errors.hospitalName}
-                  value={hospitalName}
-                  onChangeText={handleChange('hospitalName')}
-                  onBlur={handleBlur('hospitalName')}
-                  style={styles.forminput}
-                  placeholderText="hospital name"
-                  labelText="Hospital name"
-                />
+                <Text style={styles.formheader}> Bed Availability</Text>
+                <View style={styles.textalign}>
+                  <Text style={styles.labelstyle}>Hospital Name</Text>
+                </View>
+                <SelectList
+                  setSelected={setHospitalValue}
+                  data={hospital}
+                  inputStyles={{color: 'black', width: width - 110}}
+                  dropdownTextStyles={{color: 'black'}}
+                  dropdownStyles={{
+                    width: width - 50,
+                    innerHeight: 10,
+                    outerHeight: 9,
+                  }}
+                  dropdownItemStyles={{
+                    width: width - 50,
 
-                <MiniFormInput
-                  error={touched.hospitalAddress && errors.hospitalAddress}
-                  value={hospitalAddress}
-                  onChangeText={handleChange('hospitalAddress')}
-                  onBlur={handleBlur('hospitalAddress')}
-                  style={styles.forminput}
-                  placeholderText="hospital address"
-                  labelText="Hospital Address"
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                />
+                <View style={styles.textalign}>
+                  <Text style={styles.labelstyle}>Hospital Address</Text>
+                </View>
+                <SelectList
+                  setSelected={setAddress}
+                  data={address}
+                  inputStyles={{color: 'black', width: width - 110}}
+                  dropdownTextStyles={{color: 'black'}}
+                  dropdownStyles={{
+                    width: width - 50,
+                    innerHeight: 10,
+                    outerHeight: 9,
+                  }}
+                  dropdownItemStyles={{
+                    width: width - 50,
+
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 />
                 <MiniFormInput
                   error={touched.bedNumber && errors.bedNumber}
@@ -275,5 +323,16 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
     color: 'black',
+  },
+  labelstyle: {
+    fontFamily: 'WorkSans-Regular',
+    color: colors.primary,
+    fontSize: 14,
+    marginBottom: 3,
+    // marginRight: 170,
+  },
+  textalign: {
+    display: 'flex',
+    width: width - 55,
   },
 });
