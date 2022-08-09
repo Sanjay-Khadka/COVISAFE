@@ -1,5 +1,11 @@
 import {LoginScreen, SignupScreen} from './authScreen';
-import {HomeScreen, ProfileScreen} from './Dashboard';
+import {
+  HomeScreen,
+  ProfileScreen,
+  OxygenScreen,
+  BedScreen,
+  UserRequests,
+} from './Dashboard';
 import {
   ApprovedRequests,
   CreateOxygen,
@@ -19,4 +25,7 @@ export {
   Requests,
   Dashboard,
   UsersPanel,
+  OxygenScreen,
+  BedScreen,
+  UserRequests,
 };

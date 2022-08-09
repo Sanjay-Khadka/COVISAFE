@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import {ToastAndroid} from 'react-native';
+import {Alert} from 'react-native';
 import {url} from '../../constants';
 export const login = 'login';
 export const register = 'register';
@@ -19,8 +20,28 @@ export const loginUser = logindata => {
       const {data} = await axios(config);
       // console.warn(data);
       dispatch({type: login, payload: data});
+      console.log(data);
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.error
+          ? ToastAndroid.showWithGravity(
+              data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Logged In',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (error) {
-      console.warn(error);
+      // console.warn(error);
+      ToastAndroid.showWithGravity(
+        'Login failed please try again ',
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER,
+      );
     }
   };
 };
@@ -44,6 +65,20 @@ export const registerUser = registerData => {
       const {data} = await axios(config);
       console.warn(data);
       dispatch({type: register, payload: data});
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.uid
+          ? ToastAndroid.showWithGravity(
+              'User registered successfully',
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'what is this ',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (error) {
       console.warn(error);
     }

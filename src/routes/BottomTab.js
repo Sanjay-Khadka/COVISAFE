@@ -11,6 +11,9 @@ import {
   Dashboard,
   Requests,
   ApprovedRequests,
+  OxygenScreen,
+  BedScreen,
+  UserRequests,
 } from '../screens';
 import {useSelector} from 'react-redux';
 const Tab = createBottomTabNavigator();
@@ -46,15 +49,7 @@ const BottomTab = () => {
               ),
             }}
           />
-          <Tab.Screen
-            name="Approved"
-            component={ApprovedRequests}
-            options={{
-              tabBarIcon: ({color, size}) => (
-                <Icon color={color} name="check-square" size={size} />
-              ),
-            }}
-          />
+
           <Tab.Screen
             name="Requests"
             component={Requests}
@@ -94,6 +89,34 @@ const BottomTab = () => {
               ),
             }}
           />
+          <Tab.Screen
+            name="Beds"
+            component={BedScreen}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="bed" size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Oxygens"
+            component={OxygenScreen}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="circle-thin" size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Request"
+            component={UserRequests}
+            options={{
+              tabBarIcon: ({color, size}) => (
+                <Icon color={color} name="list" size={size} />
+              ),
+            }}
+          />
+
           <Tab.Screen
             name="Profile"
             component={ProfileScreen}

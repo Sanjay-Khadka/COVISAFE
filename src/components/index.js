@@ -9,6 +9,8 @@ import MiniFormInput from './MiniFormInput';
 import BubbleText from './BubbleText';
 import OxygenRequest from './OxygenRequest';
 import BedRequest from './BedRequest';
+import UserBedRequest from './UserBedRequest';
+import UserOxygenRequest from './UserOxygenRequest';
 export {
   FormInput,
   PasswordInput,
@@ -21,4 +23,6 @@ export {
   BubbleText,
   OxygenRequest,
   BedRequest,
+  UserBedRequest,
+  UserOxygenRequest,
 };

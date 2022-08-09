@@ -8,6 +8,8 @@ export const fetchOxygenReq = 'fetchOxygenReq';
 export const makeOxygenReq = 'makeOxygenReq';
 export const authorizedOxygenReq = 'authorizedOxygenReq';
 export const removeOxygenReq = 'removeOxygenReq';
+export const fetchUserOxygenReq = 'fetchUserOxygenReq';
+export const getUserApprovedOxygen = 'getUserApprovedBed';
 export const createOxygen = oxygenData => {
   return async dispatch => {
     var config = {
@@ -81,6 +83,39 @@ export const getOxygenRequestList = () => {
   };
 };
 
+export const getUserOxygenRequestList = userid => {
+  var config = {
+    method: 'get',
+    url: `${url}/getUoxygenrequests/${userid}`,
+    headers: {},
+  };
+  return async dispatch => {
+    try {
+      const {data} = await axios(config);
+      console.log(data[0].request_type.title);
+      dispatch({type: fetchUserOxygenReq, payload: data});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const userApprovedOxygenReq = id => {
+  var config = {
+    method: 'get',
+    url: `${url}/apOxygen/${id}`,
+  };
+  return async dispatch => {
+    try {
+      const {data} = await axios(config);
+      console.log(data[0].request_type.title);
+      dispatch({type: getUserApprovedOxygen, payload: data});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const createOxygenReq = (oxygenId, userId, reqUrgency) => {
   var config = {
     method: 'post',
@@ -93,6 +128,7 @@ export const createOxygenReq = (oxygenId, userId, reqUrgency) => {
   return async dispatch => {
     try {
       const {data} = await axios(config);
+      console.log(data);
       dispatch({type: makeOxygenReq, payload: data});
     } catch (err) {
       console.log(err);

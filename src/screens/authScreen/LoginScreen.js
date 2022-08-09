@@ -7,11 +7,9 @@ import {
   Image,
   KeyboardAvoidingView,
   Dimensions,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-
+// import {Toast} from 'toastify-react-native';
 import {loginUser} from '../../redux/actions/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
@@ -57,6 +55,7 @@ const LoginScreen = () => {
         const {email, password} = values;
         return (
           <KeyboardAvoidingView style={styles.container} behavior="padding">
+            {/* <Container position="top" animationStyle="fancy" /> */}
             <View style={styles.innercontainer}>
               <Image
                 style={styles.logo}

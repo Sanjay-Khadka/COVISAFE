@@ -13,20 +13,34 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {logoutUser} from '../../redux/actions/auth';
 import colors from '../../colors/colors';
-
+import {url} from '../../constants';
 const {height, width} = Dimensions.get('window');
 
 const Dashboard = () => {
   const [covidData, setCovidData] = useState('');
   const [total, setTotal] = useState(true);
   const [today, setToday] = useState(false);
+  const [oxygenreqlist, setReqList] = useState('');
+  const [approvedbedreqlength, setapprovedbed] = useState(0);
+  const [approvedoxygenlength, setapprovedoxygen] = useState(0);
 
   const bedrequestlist = useSelector(state => state.bedsReducer.BedRequestList);
   var bedreqlen = bedrequestlist.length;
-  const oxygenrequestlist = useSelector(
-    state => state.oxygenReducer.OxygenRequestList,
-  );
-  var oxygenreqlen = oxygenrequestlist.length;
+  const getOxyList = async () => {
+    try {
+      const {data} = await axios.get(`${url}/getalloxygenrequests`);
+      setReqList(data);
+      var approvedOxygen = data.filter(status => {
+        return status?.requestStatus === 'approved';
+      });
+      var oxyreqapp = approvedOxygen.length;
+      setapprovedoxygen(oxyreqapp);
+      console.log(oxyreqapp);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  var oxygenreqlen = oxygenreqlist.length;
   const beds = useSelector(state => state.bedsReducer.Beds);
   var bedlength = beds.length;
   const oxygens = useSelector(state => state.oxygenReducer.Oxygens);
@@ -34,7 +48,18 @@ const Dashboard = () => {
   var bedlength = beds.length;
   useEffect(() => {
     getCovidData();
+    getOxyList();
+    filterApprovedBed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const filterApprovedBed = () => {
+    var approvedBed = bedrequestlist.filter(status => {
+      return status.requestStatus === 'approved';
+    });
+    var bedreqapplength = approvedBed.length;
+    setapprovedbed(bedreqapplength);
+  };
 
   const handleTotalButton = () => {
     setTotal(!total);
@@ -167,12 +192,12 @@ const Dashboard = () => {
 
         <View>
           <BubbleText
-            bubbleValue="40"
+            bubbleValue={approvedbedreqlength}
             label=" Approved Bed Requests"
             backgroundColor={'#99d98c'}
           />
           <BubbleText
-            bubbleValue="40"
+            bubbleValue={approvedoxygenlength}
             label=" Approved O2 Requests"
             backgroundColor={'#99d98c'}
           />

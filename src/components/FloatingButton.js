@@ -7,11 +7,12 @@ const FloatingButton = ({
   buttonLabel = '',
   handleOnPress = null,
   style,
+  isDisabled = false,
   ...more
 }) => {
   return (
     <View style={[{...style}, styles.buttoncontainer]}>
-      <TouchableOpacity onPress={handleOnPress}>
+      <TouchableOpacity onPress={handleOnPress} disabled={isDisabled}>
         <Text style={styles.button}>{buttonLabel}</Text>
       </TouchableOpacity>
     </View>
@@ -21,14 +22,14 @@ const FloatingButton = ({
 export default FloatingButton;
 
 const styles = StyleSheet.create({
-  buttoncontainer: {
-    position: 'relative',
-    padding: 10,
-    height: 50,
-    width: 100,
-    // backgroundColor: colors.primary,
-    borderRadius: 50,
-  },
+  // buttoncontainer: {
+  //   position: 'relative',
+  //   padding: 10,
+  //   height: 50,
+  //   width: 100,
+  //   // backgroundColor: colors.primary,
+  //   borderRadius: 50,
+  // },
 
   button: {
     textAlign: 'center',

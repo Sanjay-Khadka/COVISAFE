@@ -3,8 +3,8 @@ import {
   addBed,
   removeBed,
   fetchBedRequest,
-  authorizedBedRequest,
-  makeBedRequest,
+  fetchUserBedReq,
+  getUserApprovedBed,
 } from '../actions/manageBed';
 const bedInitial = {
   Beds: [],
@@ -13,6 +13,8 @@ const bedInitial = {
   BedRequestList: [],
   makeBedRequestStatus: {},
   authorizeBedStatus: {},
+  UserBedRequest: [],
+  ApprovedUserBedReq: [],
 };
 // console.log(bedInitial.BedRequestList);
 const BedsReducer = (state = bedInitial, action) => {
@@ -39,6 +41,18 @@ const BedsReducer = (state = bedInitial, action) => {
       return {
         ...state,
         BedRequestList: action.payload,
+      };
+    }
+    case fetchUserBedReq: {
+      return {
+        ...state,
+        UserBedRequest: action.payload,
+      };
+    }
+    case getUserApprovedBed: {
+      return {
+        ...state,
+        ApprovedUserBedReq: action.payload,
       };
     }
     default:

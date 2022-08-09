@@ -197,6 +197,11 @@ const styles = StyleSheet.create({
     bottom: 10,
     marginLeft: 250,
     backgroundColor: colors.primary,
+    position: 'relative',
+    padding: 10,
+    height: 50,
+    width: 100,
+    borderRadius: 50,
   },
   modalcontainer: {
     justifyContent: 'center',

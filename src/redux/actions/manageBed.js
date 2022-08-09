@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {Alert} from 'react-native';
 import {url} from '../../constants';
 export const removeBed = 'removeBed';
 export const addBed = 'addBed';
@@ -7,6 +8,8 @@ export const fetchBedRequest = 'fetchBedRequest';
 export const authorizedBedRequest = 'authorizedBed';
 export const makeBedRequest = 'makeBedRequest';
 export const removebedReq = 'removebedReq';
+export const fetchUserBedReq = 'fetchUserBedReq';
+export const getUserApprovedBed = 'getUserApprovedBed';
 
 export const createBed = (bedData, authToken) => {
   return async dispatch => {
@@ -84,6 +87,23 @@ export const getBedRequestList = () => {
   };
 };
 
+export const getUserBedRequestList = userid => {
+  var config = {
+    method: 'get',
+    url: `${url}/getUBedrequests/${userid}`,
+    headers: {},
+  };
+  return async dispatch => {
+    try {
+      const {data} = await axios(config);
+      console.log(data[0]?.request_type.title);
+      dispatch({type: fetchUserBedReq, payload: data});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const createBedRequest = (bedId, userId, requestUrgency) => {
   var config = {
     method: 'post',
@@ -95,7 +115,10 @@ export const createBedRequest = (bedId, userId, requestUrgency) => {
   };
   return async dispatch => {
     try {
+      // console.log(bedId, userId, requestUrgency);
       const {data} = await axios(config);
+      // Alert.alert('Bed Request approved');
+      // console.log(data);
       dispatch({type: makeBedRequest, payload: data});
     } catch (err) {
       console.log(err);
@@ -103,6 +126,21 @@ export const createBedRequest = (bedId, userId, requestUrgency) => {
   };
 };
 
+export const userApprovedBedReq = id => {
+  var config = {
+    method: 'get',
+    url: `${url}/apbed/${id}`,
+  };
+  return async dispatch => {
+    try {
+      const {data} = await axios(config);
+      console.log(data[0]?.request_type);
+      dispatch({type: getUserApprovedBed, payload: data});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 export const acceptBedRequest = BedRequestId => {
   console.log(BedRequestId);
   var config = {
