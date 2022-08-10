@@ -2,15 +2,12 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
 import axios from 'axios';
+import {ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Octicons';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {url} from '../constants';
 import colors from '../colors/colors';
-import {
-  getOxygenRequestList,
-  acceptOxygenReq,
-  deleteOxygenReq,
-} from '../redux/actions/manageoxygen';
+import {acceptOxygenReq, deleteOxygenReq} from '../redux/actions/manageoxygen';
 import CustomButton from './Button';
 
 const {height, width} = Dimensions.get('window');
@@ -23,10 +20,24 @@ const OxygenRequest = () => {
   const getOxyList = async () => {
     try {
       const {data} = await axios.get(`${url}/getalloxygenrequests`);
-      console.log(data);
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data?.length !== 0
+          ? ToastAndroid.showWithGravity(
+              'Oxygen request list fetched',
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Oxygen request list is empty',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
       setReqList(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 

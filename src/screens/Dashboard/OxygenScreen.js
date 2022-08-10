@@ -56,7 +56,7 @@ const OxygenScreen = () => {
   };
 
   const handleSubmit = () => {
-    console.log(selected);
+    // console.log(selected);
     var requestedPriority = JSON.stringify({
       requestedUrgency: selected,
     });

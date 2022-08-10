@@ -1,16 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import colors from '../colors/colors';
+import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
+
 import Icon from 'react-native-vector-icons/dist/Octicons';
 import {useDispatch, useSelector} from 'react-redux';
+import colors from '../colors/colors';
 import {
   getBedRequestList,
   acceptBedRequest,
@@ -24,7 +18,7 @@ const BedRequest = () => {
   const dispatch = useDispatch();
 
   const bedrequestlist = useSelector(state => state.bedsReducer.BedRequestList);
-  // console.log(bedrequestlist);
+
   useEffect(() => {
     dispatch(getBedRequestList());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,7 +47,6 @@ const BedRequest = () => {
           <ScrollView style={styles.bedreqlist}>
             {bedrequestlist.map((bedreqli, index) => (
               <View key={index} style={styles.bedReqDetails}>
-                {/* <Text> Oxygen Request Details</Text> */}
                 <View>
                   <Text style={styles.bedreqText}>
                     Request :{bedreqli.request_type.title}

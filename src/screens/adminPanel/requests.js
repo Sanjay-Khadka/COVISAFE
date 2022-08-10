@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
 import {Tab, TabView} from '@rneui/themed';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {NavigationHeader} from '../../components';
 import {OxygenRequest, BedRequest} from '../../components';
 const Requests = () => {
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
 
     width: '100%',
-    // marginHorizontal: 20,
+
     alignItems: 'center',
   },
   react: {
@@ -76,9 +77,7 @@ const styles = StyleSheet.create({
     color: '#004277',
     fontSize: 16,
     fontFamily: 'WorkSans-Regular',
-    // marginTop: 50,
-    // alignContent: 'center',
-    // alignItems: 'center',
+
     textAlign: 'center',
   },
   viewcontainer: {
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 5,
     borderWidth: 1,
-    // marginTop: 100,
+
     paddingBottom: 250,
   },
 });

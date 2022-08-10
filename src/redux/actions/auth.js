@@ -21,7 +21,7 @@ export const loginUser = logindata => {
       const {data} = await axios(config);
       // console.warn(data);
       dispatch({type: login, payload: data});
-      console.log(data);
+      // console.log(data);
       // eslint-disable-next-line no-lone-blocks
       {
         data.error
@@ -48,7 +48,14 @@ export const loginUser = logindata => {
 };
 
 export const logoutUser = () => {
-  return {type: login, payload: null};
+  return dispatch => {
+    dispatch({type: login, payload: null});
+    ToastAndroid.showWithGravity(
+      'Logged Out',
+      ToastAndroid.LONG,
+      ToastAndroid.CENTER,
+    );
+  };
 };
 
 export const registerUser = registerData => {
@@ -106,18 +113,23 @@ export const changeFullName = (nameData, token, userid) => {
       {
         data._id
           ? ToastAndroid.showWithGravity(
-              `Fullname changed successfully ${data.fullname} `,
+              `Fullname changed to ${data.fullname} `,
               ToastAndroid.LONG,
               ToastAndroid.BOTTOM,
             )
           : ToastAndroid.showWithGravity(
-              'could not change name  ',
+              'could not change fullname  ',
               ToastAndroid.LONG,
               ToastAndroid.TOP,
             );
       }
     } catch (error) {
       console.warn(error);
+      ToastAndroid.showWithGravity(
+        'An error occured!',
+        ToastAndroid.LONG,
+        ToastAndroid.TOP,
+      );
     }
   };
 };

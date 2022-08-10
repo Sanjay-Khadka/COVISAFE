@@ -1,17 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
-
 import {View, Text, StyleSheet, Image} from 'react-native';
-import {
-  CasesContainer,
-  CustomButton,
-  ToggleButton,
-  BubbleText,
-} from '../../components';
-import {useDispatch, useSelector} from 'react-redux';
-import {logoutUser} from '../../redux/actions/auth';
+
+import {CasesContainer, ToggleButton} from '../../components';
+import {useSelector} from 'react-redux';
 import colors from '../../colors/colors';
 
 const {height, width} = Dimensions.get('window');
@@ -22,17 +15,7 @@ const Dashboard = () => {
   const [today, setToday] = useState(false);
   const {userdata} = useSelector(state => state.authReducer.Login);
   const fullname = userdata?.fullname;
-  const bedrequestlist = useSelector(state => state.bedsReducer.BedRequestList);
-  var bedreqlen = bedrequestlist.length;
-  const oxygenrequestlist = useSelector(
-    state => state.oxygenReducer.OxygenRequestList,
-  );
-  var oxygenreqlen = oxygenrequestlist.length;
-  const beds = useSelector(state => state.bedsReducer.Beds);
-  var bedlength = beds.length;
-  const oxygens = useSelector(state => state.oxygenReducer.Oxygens);
-  var oxygenLength = oxygens.length;
-  var bedlength = beds.length;
+
   useEffect(() => {
     getCovidData();
   }, []);
@@ -57,16 +40,13 @@ const Dashboard = () => {
       console.log(error);
     }
   };
-  const dispatch = useDispatch();
-  // const logout = () => {
-  //   dispatch(logoutUser());
-  // };
+
   return (
     <View style={styles.maincontainer}>
       <View style={styles.halfcontainer}>
         <View style={styles.topHeader}>
           <Text style={styles.covidText}>COVISAFE</Text>
-          {/* <Icon color={'white'} name="user-circle" size={30} /> */}
+
           <Text style={styles.name}>{fullname}</Text>
         </View>
         <View style={styles.toggles}>
@@ -146,7 +126,6 @@ const Dashboard = () => {
           source={require('../../assets/halfimage.jpg')}
         />
       </View>
-      {/* <CustomButton labelText="Logout" handleOnPress={logout} /> */}
     </View>
   );
 };

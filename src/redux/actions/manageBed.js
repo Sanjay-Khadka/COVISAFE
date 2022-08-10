@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {Alert} from 'react-native';
 import {url} from '../../constants';
+import {ToastAndroid} from 'react-native';
 export const removeBed = 'removeBed';
 export const addBed = 'addBed';
 export const getbeds = 'getbeds';
@@ -25,11 +25,25 @@ export const createBed = (bedData, authToken) => {
     };
     try {
       const {data} = await axios(config);
-      console.warn(data);
+      // console.warn(data);
       dispatch({type: addBed, payload: data});
-      // dispatch(hideloading());
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.message
+          ? ToastAndroid.showWithGravity(
+              data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            )
+          : ToastAndroid.showWithGravity(
+              'Sorry could not add Bed',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (error) {
-      console.warn(error);
+      // console.warn(error);
+      ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };
@@ -45,15 +59,15 @@ export const getAllBed = () => {
     try {
       const {data} = await axios(config);
       dispatch({type: getbeds, payload: data});
-      // console.log(data);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };
 
 export const deleteBed = bed_id => {
-  console.log(bed_id);
+  // console.log(bed_id);
   return async dispatch => {
     var config = {
       method: 'delete',
@@ -63,9 +77,25 @@ export const deleteBed = bed_id => {
     try {
       const {data} = await axios(config);
       dispatch({type: removeBed, payload: data});
-      console.log(data?.success);
+      // eslint-disable-next-line no-lone-blocks
+      // console.log(data);
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.success
+          ? ToastAndroid.showWithGravity(
+              data.success,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Bed deletion failed',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };
@@ -79,10 +109,25 @@ export const getBedRequestList = () => {
   return async dispatch => {
     try {
       const {data} = await axios(config);
-      // console.log(data);
+      // console.log();
       dispatch({type: fetchBedRequest, payload: data});
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.length !== 0
+          ? ToastAndroid.showWithGravity(
+              'Bed Request List fetched',
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Bed Request list is empty',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };
@@ -96,10 +141,25 @@ export const getUserBedRequestList = userid => {
   return async dispatch => {
     try {
       const {data} = await axios(config);
-      console.log(data[0]?.request_type.title);
+
       dispatch({type: fetchUserBedReq, payload: data});
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.length !== 0
+          ? ToastAndroid.showWithGravity(
+              'Bed Request list fetched',
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'You do not have any Bed Requests',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };
@@ -120,8 +180,23 @@ export const createBedRequest = (bedId, userId, requestUrgency) => {
       // Alert.alert('Bed Request approved');
       // console.log(data);
       dispatch({type: makeBedRequest, payload: data});
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data._id
+          ? ToastAndroid.showWithGravity(
+              'Bed Request Submitted',
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Sorry couldnot submit Bed request',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };
@@ -134,15 +209,15 @@ export const userApprovedBedReq = id => {
   return async dispatch => {
     try {
       const {data} = await axios(config);
-      console.log(data[0]?.request_type);
+      // console.log(data[0]?.request_type);
       dispatch({type: getUserApprovedBed, payload: data});
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 };
 export const acceptBedRequest = BedRequestId => {
-  console.log(BedRequestId);
+  // console.log(BedRequestId);
   var config = {
     method: 'put',
     url: `${url}/apbed/${BedRequestId}`,
@@ -151,16 +226,31 @@ export const acceptBedRequest = BedRequestId => {
   return async dispatch => {
     try {
       const {data} = await axios(config);
-      console.log(data);
+      // console.log(data);
       dispatch({type: authorizedBedRequest, payload: data});
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.message
+          ? ToastAndroid.showWithGravity(
+              data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Approving bed request failed',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };
 
 export const deletebedReq = bedreqId => {
-  console.log(bedreqId);
+  // console.log(bedreqId);
   var config = {
     method: 'delete',
     url: `${url}/bedReq/delete/${bedreqId}`,
@@ -169,10 +259,25 @@ export const deletebedReq = bedreqId => {
   return async dispatch => {
     try {
       const {data} = await axios(config);
-      console.log(data);
+      // console.log(data);
       dispatch({type: removebedReq, payload: data});
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.success
+          ? ToastAndroid.showWithGravity(
+              data.success,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              ' Failed to delete bed request',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };

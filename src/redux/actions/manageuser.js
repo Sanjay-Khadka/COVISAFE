@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import {ToastAndroid} from 'react-native';
 import {url} from '../../constants';
 
 export const fetchUser = 'fetchUser';
@@ -27,7 +27,7 @@ export const getUserList = () => {
 
 export const deleteUser = (userId, authToken) => {
   // console.log(userId);
-  console.log(authToken);
+  // console.log(authToken);
   return async dispatch => {
     var config = {
       method: 'delete',
@@ -39,12 +39,26 @@ export const deleteUser = (userId, authToken) => {
 
     try {
       const {data} = await axios(config);
-      console.log(data);
+
       dispatch({type: removeUser});
       dispatch(hideLoading());
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.success
+          ? ToastAndroid.showWithGravity(
+              data.success,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Bed deletion failed',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
     } catch (err) {
-      console.log('deleteUser error', err);
       dispatch(hideLoading());
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };
 };
