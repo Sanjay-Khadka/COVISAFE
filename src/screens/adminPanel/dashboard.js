@@ -35,7 +35,7 @@ const Dashboard = () => {
       });
       var oxyreqapp = approvedOxygen.length;
       setapprovedoxygen(oxyreqapp);
-      console.log(oxyreqapp);
+      // console.log(oxyreqapp);
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +78,7 @@ const Dashboard = () => {
       );
       setCovidData(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const dispatch = useDispatch();

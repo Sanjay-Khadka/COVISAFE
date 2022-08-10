@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import axios from 'axios';
 import {ToastAndroid} from 'react-native';
 import {url} from '../../constants';
@@ -6,6 +7,7 @@ export const fetchUser = 'fetchUser';
 export const removeUser = 'removeUser';
 export const showloader = 'showloader';
 export const hideloader = 'hideloader';
+export const changeRole = 'changeRole';
 export const getUserList = () => {
   return async dispatch => {
     var config = {
@@ -69,4 +71,37 @@ export const setLoading = () => dispatch => {
 
 export const hideLoading = () => dispatch => {
   dispatch({type: hideloader});
+};
+
+export const makeUserAdmin = (userid, admindata) => {
+  var config = {
+    method: 'post',
+    url: `${url}/admin/makeadmin/${userid}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: admindata,
+  };
+  return async dispatch => {
+    try {
+      const {data} = await axios(config);
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.success
+          ? ToastAndroid.showWithGravity(
+              data.success,
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              ' Failed to make admin',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
+      dispatch({type: changeRole});
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
 import {
   StyleSheet,
@@ -13,10 +14,12 @@ import {
   getUserList,
   deleteUser,
   setLoading,
+  makeUserAdmin,
 } from '../../redux/actions/manageuser';
 import {useDispatch, useSelector} from 'react-redux';
 import {Dimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import colors from '../../colors/colors';
 
 const {height, width} = Dimensions.get('window');
 
@@ -40,6 +43,14 @@ const UsersPanel = () => {
     dispatch(deleteUser(details_id, userToken));
     dispatch(getUserList());
   };
+
+  const makeadmin = userid => {
+    var admindata = JSON.stringify({
+      isAdmin: true,
+    });
+    dispatch(makeUserAdmin(userid, admindata));
+    dispatch(getUserList());
+  };
   return (
     <View style={styles.maincontainer}>
       <NavigationHeader Title="Users Panel" />
@@ -54,6 +65,7 @@ const UsersPanel = () => {
           {data.map((details, index) => (
             <View key={index} style={styles.userdetailsbox}>
               <View style={{display: 'flex', flex: 5}}>
+                {/* <Text style={styles.userdetailstext}>{details._id}</Text> */}
                 <Text style={styles.userdetailstext}>
                   Full Name: {details.fullname}
                 </Text>
@@ -62,12 +74,23 @@ const UsersPanel = () => {
                 </Text>
               </View>
 
-              <TouchableOpacity
-                style={styles.deletebutton}
-                onPress={() => removeUser(details._id, userToken)}>
-                <Icon color={'#c1121f'} name="trash" size={30} />
-                <Text style={{color: 'black', fontWeight: 'bold'}}>Delete</Text>
-              </TouchableOpacity>
+              <View style={styles.buttoncontainer}>
+                <TouchableOpacity
+                  style={styles.deletebutton}
+                  onPress={() => removeUser(details._id, userToken)}>
+                  <Icon color={'#c1121f'} name="trash" size={30} />
+                  <Text style={{color: 'black', fontWeight: 'bold'}}>
+                    Delete
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.makeadmin}
+                  onPress={() => makeadmin(details._id)}>
+                  <Text style={{color: 'white', fontWeight: 'bold'}}>
+                    make admin
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ))}
         </ScrollView>
@@ -95,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    height: height / 8,
+    // height: height / 8,
     width: width - 14,
     display: 'flex',
     padding: 10,
@@ -110,6 +133,17 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   deletebutton: {
+    // marginVertical: 7,
+    margin: 5,
+    flex: 2,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  makeadmin: {
+    backgroundColor: colors.primary,
+    padding: 8,
+    borderRadius: 8,
     margin: 5,
     flex: 2,
     display: 'flex',
@@ -129,5 +163,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 25,
     textAlign: 'center',
+  },
+  buttoncontainer: {
+    // paddingVertical: 2,
+    justifyContent: 'space-between',
   },
 });
