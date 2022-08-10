@@ -4,8 +4,8 @@ import {ToastAndroid} from 'react-native';
 
 import {url} from '../../constants';
 export const addOxygen = 'addOxygen';
-// export const deleteOxygen = 'deleteOxygen';
 export const fetchOxygen = 'fetchOxygen';
+export const availableOxygen = 'availableOxygen';
 export const removeOxygen = 'removeOxygen';
 export const fetchOxygenReq = 'fetchOxygenReq';
 export const makeOxygenReq = 'makeOxygenReq';
@@ -59,6 +59,37 @@ export const getOxygen = () => {
       const {data} = await axios(config);
       dispatch({type: fetchOxygen, payload: data});
       // console.log(data);
+      {
+        data.length !== 0
+          ? ToastAndroid.showWithGravity(
+              'Oxygen List fetched',
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Oxygen list is empty',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
+    } catch (err) {
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+    }
+  };
+};
+
+export const getAvailableOxygen = () => {
+  var config = {
+    method: 'get',
+    url: `${url}/oxygen/availableOxygen`,
+    headers: {},
+  };
+  return async dispatch => {
+    try {
+      const {data} = await axios(config);
+      dispatch({type: availableOxygen, payload: data});
+      console.log(data);
       {
         data.length !== 0
           ? ToastAndroid.showWithGravity(

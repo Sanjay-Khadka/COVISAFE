@@ -59,7 +59,7 @@ const OxygenRequest = () => {
 
   return (
     <View style={styles.maincontainer}>
-      {oxyreqlist.length === 0 ? (
+      {oxyreqlist?.length === 0 ? (
         <View style={styles.emptyView}>
           <Text style={styles.emptyViewMessage}>
             Oxygen request list is empty !
@@ -68,7 +68,7 @@ const OxygenRequest = () => {
       ) : (
         <>
           <ScrollView style={styles.oxygenreqlist}>
-            {oxyreqlist.map((oxygenreqli, index) => (
+            {oxyreqlist?.map((oxygenreqli, index) => (
               <View key={index} style={styles.oxygenReqDetails}>
                 {/* <Text> Oxygen Request Details</Text> */}
                 <View>
@@ -105,16 +105,30 @@ const OxygenRequest = () => {
                   )}
                 </Text>
                 <View style={styles.buttonContainer}>
-                  <CustomButton
-                    labelText="Approve request"
-                    style={styles.submitbutton}
-                    handleOnPress={() => approveOxygenRequest(oxygenreqli._id)}
-                  />
-                  <CustomButton
-                    labelText="Delete request"
-                    style={styles.cancelbutton}
-                    handleOnPress={() => deletOxygenReqfunc(oxygenreqli._id)}
-                  />
+                  {oxygenreqli.requestStatus === 'approved' ? (
+                    <CustomButton
+                      labelText="Delete request"
+                      style={styles.cancelbutton}
+                      handleOnPress={() => deletOxygenReqfunc(oxygenreqli._id)}
+                    />
+                  ) : (
+                    <>
+                      <CustomButton
+                        labelText="Approve request"
+                        style={styles.submitbutton}
+                        handleOnPress={() =>
+                          approveOxygenRequest(oxygenreqli._id)
+                        }
+                      />
+                      <CustomButton
+                        labelText="Delete request"
+                        style={styles.cancelbutton}
+                        handleOnPress={() =>
+                          deletOxygenReqfunc(oxygenreqli._id)
+                        }
+                      />
+                    </>
+                  )}
                 </View>
               </View>
             ))}

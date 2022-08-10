@@ -46,7 +46,6 @@ const CreateOxygen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('this ran');
     dispatch(getOxygen());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -66,36 +65,46 @@ const CreateOxygen = () => {
   return (
     <View style={styles.maincontainer}>
       <NavigationHeader Title="Oxygens" />
-      <ScrollView style={styles.oxygenContainer}>
-        {oxygen.map((oxygenlist, index) => (
-          <View key={index} style={styles.oxygenDetails}>
-            <View>
-              <Text style={styles.oxygenText}>
-                Volume:{oxygenlist.volume} litres
-              </Text>
-              <Text style={styles.oxygenText}>
-                Cylinder number:{oxygenlist.cylinderNumber}
-              </Text>
-              <Text style={styles.oxygenText}>
-                Available:
-                {oxygenlist.isAvailable ? (
-                  <Text style={[styles.oxygenText, {color: 'green'}]}>Yes</Text>
-                ) : (
-                  <Text style={[styles.oxygenText, {color: 'red'}]}>No</Text>
-                )}
-              </Text>
+      {oxygen.length === 0 ? (
+        <View style={styles.emptyView}>
+          <Text style={styles.emptyViewMessage}>Oxygen list is empty !</Text>
+        </View>
+      ) : (
+        <ScrollView style={styles.oxygenContainer}>
+          {oxygen.map((oxygenlist, index) => (
+            <View key={index} style={styles.oxygenDetails}>
+              <View>
+                <Text style={styles.oxygenText}>
+                  Volume:{oxygenlist.volume} litres
+                </Text>
+                <Text style={styles.oxygenText}>
+                  Cylinder number:{oxygenlist.cylinderNumber}
+                </Text>
+                <Text style={styles.oxygenText}>
+                  Available:
+                  {oxygenlist.isAvailable ? (
+                    <Text style={[styles.oxygenText, {color: 'green'}]}>
+                      Yes
+                    </Text>
+                  ) : (
+                    <Text style={[styles.oxygenText, {color: 'red'}]}>No</Text>
+                  )}
+                </Text>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={styles.deletebutton}
+                  onPress={() => oxygenRemove(oxygenlist._id)}>
+                  <Icon color={'#c1121f'} name="trash" size={30} />
+                  <Text style={{color: 'black', fontWeight: 'bold'}}>
+                    Delete
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View>
-              <TouchableOpacity
-                style={styles.deletebutton}
-                onPress={() => oxygenRemove(oxygenlist._id)}>
-                <Icon color={'#c1121f'} name="trash" size={30} />
-                <Text style={{color: 'black', fontWeight: 'bold'}}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+          ))}
+        </ScrollView>
+      )}
       <View styles={{backgroundColor: 'white'}}>
         <FloatingButton
           buttonLabel="O2 +"
@@ -265,5 +274,19 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
     color: 'black',
+  },
+  emptyView: {
+    // backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    flex: 2,
+    height: height,
+    // backgroundColor: 'white',
+  },
+  emptyViewMessage: {
+    // fontWeight: '',
+    fontSize: 20,
+    color: colors.smalltext,
   },
 });

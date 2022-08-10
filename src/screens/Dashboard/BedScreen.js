@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  TextInput,
+} from 'react-native';
 
 import {Modal} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
@@ -11,10 +18,13 @@ import {getAllBed, createBedRequest} from '../../redux/actions/manageBed';
 import colors from '../../colors/colors';
 const {height, width} = Dimensions.get('window');
 
-const OxygenScreen = () => {
+const OxygenScreen = ({navigation}) => {
+  const [search, setSearch] = useState('');
   const [isVisible, setVisibility] = useState(false);
   const [selected, setValue] = useState('Normal');
   const [bedId, setOxygenId] = useState('');
+  const [unfilteredlist, setBedList] = useState([]);
+  const [filteredBedList, setFilteredList] = useState([]);
 
   const user = useSelector(state => state.authReducer.Login);
 
@@ -28,11 +38,16 @@ const OxygenScreen = () => {
   ];
 
   const beds = useSelector(state => state.bedsReducer.Beds);
+  // setBedList(beds);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log('this ran');
-    dispatch(getAllBed());
+    navigation.addListener('focus', () => {
+      console.log('BedScreen');
+      dispatch(getAllBed());
+      setBedList(beds);
+      setFilteredList(beds);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -41,7 +56,6 @@ const OxygenScreen = () => {
   };
 
   const handleSubmit = () => {
-    // console.log(selected);
     var requestedPriority = JSON.stringify({
       requestedUrgency: selected,
     });
@@ -54,12 +68,38 @@ const OxygenScreen = () => {
     setVisibility(true);
     setOxygenId(bedlistid);
   };
+  const searchFilterFunction = text => {
+    // Check if searched text is not blank
+    if (text) {
+      const newData = unfilteredlist.filter(function (item) {
+        const itemData = item.address
+          ? item.address.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredList(newData);
+      setSearch(text);
+    } else {
+      setFilteredList(unfilteredlist);
+      setSearch(text);
+    }
+  };
   return (
     <View style={styles.maincontainer}>
       <NavigationHeader Title="Beds" />
-
+      <View>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={text => searchFilterFunction(text)}
+          value={search}
+          underlineColorAndroid="transparent"
+          placeholder="Search Hospital Address"
+          placeholderTextColor={'black'}
+        />
+      </View>
       <ScrollView style={styles.oxygenContainer}>
-        {beds.map((bedlist, index) => (
+        {filteredBedList.map((bedlist, index) => (
           <View key={index} style={styles.oxygenDetails}>
             <View>
               {/* <Text style={{fontSize: 15, color: 'black'}}>{bedlist._id}</Text> */}
@@ -85,13 +125,9 @@ const OxygenScreen = () => {
                 setSelected={setValue}
                 data={requestPriority}
                 inputStyles={{color: 'black', width: 90}}
-                // boxStyles={{borderRadius: 0}}
                 dropdownTextStyles={{color: 'black'}}
                 dropdownStyles={{width: 105, innerHeight: 10, outerHeight: 9}}
                 dropdownItemStyles={{
-                  // margin: 10,
-                  // padding: 30,
-
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}
@@ -106,7 +142,7 @@ const OxygenScreen = () => {
         contentContainerStyle={styles.modalcontainer}>
         <View style={styles.modalInnerView}>
           <Text style={styles.formheader}>
-            Do you want to submit this oxygen Request
+            Do you want to submit this Bed Request
           </Text>
 
           <View style={styles.modalbutton}>
@@ -240,5 +276,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // margin: 20,
     // padding: 10,
+  },
+  textInputStyle: {
+    color: 'black',
+    height: 40,
+    borderWidth: 1,
+    paddingLeft: 20,
+    margin: 5,
+    borderColor: colors.primary,
+    backgroundColor: '#FFFFFF',
   },
 });

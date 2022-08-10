@@ -8,28 +8,23 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-
+import axios from 'axios';
+import {url} from '../../constants';
+import {ToastAndroid} from 'react-native';
 import {Modal} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import {Formik} from 'formik';
-import * as Yup from 'yup';
 import SelectList from 'react-native-dropdown-select-list';
 
-import {
-  NavigationHeader,
-  FloatingButton,
-  MiniFormInput,
-  CustomButton,
-} from '../../components';
-import {getOxygen, createOxygenReq} from '../../redux/actions/manageoxygen';
+import {NavigationHeader, FloatingButton, CustomButton} from '../../components';
+import {createOxygenReq} from '../../redux/actions/manageoxygen';
 import colors from '../../colors/colors';
 const {height, width} = Dimensions.get('window');
 
-const OxygenScreen = () => {
+const OxygenScreen = ({navigation}) => {
   const [isVisible, setVisibility] = useState(false);
   const [selected, setValue] = useState('Normal');
   const [oxygenid, setOxygenId] = useState('');
+  const [availableOxygen, setAvailableOxygen] = useState([]);
 
   const user = useSelector(state => state.authReducer.Login);
 
@@ -42,27 +37,50 @@ const OxygenScreen = () => {
     {key: 'urgent', value: 'urgent'},
   ];
 
-  const oxygen = useSelector(state => state.oxygenReducer.Oxygens);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log('this ran');
-    dispatch(getOxygen());
+    navigation.addListener('focus', () => {
+      console.log('oxygenscreen');
+      getAvailableOxygen();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cancelSubmit = () => {
     setVisibility(false);
   };
-
+  const getAvailableOxygen = async () => {
+    try {
+      const {data} = await axios.get(`${url}/oxygen/availableOxygen`);
+      setAvailableOxygen(data);
+      // eslint-disable-next-line no-lone-blocks
+      {
+        data.length !== 0
+          ? ToastAndroid.showWithGravity(
+              'Oxygen List fetched',
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+            )
+          : ToastAndroid.showWithGravity(
+              'Oxygen list is empty',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+            );
+      }
+    } catch (err) {
+      // console.log(err);
+      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+    }
+  };
   const handleSubmit = () => {
-    // console.log(selected);
+    console.log(oxygenid);
     var requestedPriority = JSON.stringify({
       requestedUrgency: selected,
     });
     setVisibility(false);
     dispatch(createOxygenReq(oxygenid, userid, requestedPriority));
-    dispatch(getOxygen());
+    getAvailableOxygen();
   };
 
   const openForm = oxygenlistid => {
@@ -74,7 +92,7 @@ const OxygenScreen = () => {
       <NavigationHeader Title="Oxygens" />
 
       <ScrollView style={styles.oxygenContainer}>
-        {oxygen.map((oxygenlist, index) => (
+        {availableOxygen?.map((oxygenlist, index) => (
           <View key={index} style={styles.oxygenDetails}>
             <View>
               {/* <Text style={{fontSize: 15, color: 'black'}}>
@@ -125,7 +143,7 @@ const OxygenScreen = () => {
             <CustomButton
               labelText="Yes"
               style={styles.submitbutton}
-              handleOnPress={() => handleSubmit(oxygen._id)}
+              handleOnPress={() => handleSubmit()}
             />
             <CustomButton
               labelText="No"

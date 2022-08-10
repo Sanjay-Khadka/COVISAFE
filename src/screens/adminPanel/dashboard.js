@@ -1,9 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {Modal} from 'react-native-paper';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   CasesContainer,
   CustomButton,
@@ -20,10 +21,12 @@ const Dashboard = () => {
   const [covidData, setCovidData] = useState('');
   const [total, setTotal] = useState(true);
   const [today, setToday] = useState(false);
+  const [isVisible, setVisibility] = useState(false);
+
   const [oxygenreqlist, setReqList] = useState('');
   const [approvedbedreqlength, setapprovedbed] = useState(0);
   const [approvedoxygenlength, setapprovedoxygen] = useState(0);
-
+  const UserDetail = useSelector(state => state.authReducer.Login);
   const bedrequestlist = useSelector(state => state.bedsReducer.BedRequestList);
   var bedreqlen = bedrequestlist.length;
   const getOxyList = async () => {
@@ -61,6 +64,10 @@ const Dashboard = () => {
     setapprovedbed(bedreqapplength);
   };
 
+  const userDetailsModal = () => {
+    setVisibility(true);
+  };
+
   const handleTotalButton = () => {
     setTotal(!total);
     setToday(false);
@@ -90,7 +97,12 @@ const Dashboard = () => {
       <View style={styles.halfcontainer}>
         <View style={styles.topHeader}>
           <Text style={styles.covidText}>COVISAFE</Text>
-          <Icon color={'white'} name="user-circle" size={30} />
+          <TouchableOpacity
+            // style={{backgroundColor: 'red', display: 'flex', flex: 1}}
+            onPress={userDetailsModal}>
+            <Icon color={'white'} name="user-circle" size={30} />
+            {/* <Text>press</Text> */}
+          </TouchableOpacity>
         </View>
         <View style={styles.toggles}>
           <ToggleButton
@@ -204,6 +216,31 @@ const Dashboard = () => {
         </View>
       </View>
       <CustomButton labelText="Logout" handleOnPress={logout} />
+      <Modal
+        visible={isVisible}
+        dismissable={isVisible}
+        contentContainerStyle={styles.modalcontainer}>
+        <View style={styles.modalInnerView}>
+          <TouchableOpacity
+            style={styles.remove}
+            onPress={() => setVisibility(!isVisible)}>
+            <Icon color={'red'} name="remove" size={20} />
+          </TouchableOpacity>
+
+          <Text style={styles.header}>User Detail</Text>
+
+          <Icon color={colors.primary} name="user-circle" size={40} />
+          <Text style={styles.userdetails}>
+            {UserDetail?.userdata?.fullname}
+          </Text>
+          <Text style={styles.userdetails}>{UserDetail?.userdata?.email}</Text>
+          <Text style={styles.userdetails}>
+            {UserDetail?.userdata?.isAdmin === true ? (
+              <Text style={{color: 'green', fontWeight: 'bold'}}>Admin</Text>
+            ) : null}
+          </Text>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -267,5 +304,41 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // alignItems: 'center',
     justifyContent: 'center',
+  },
+  modalcontainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalInnerView: {
+    // justifyContent: 'center',
+    // padding: 40,
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    // margin: 10,
+    borderRadius: 20,
+    width: width - 120,
+    paddingVertical: 20,
+  },
+  userdetails: {
+    fontSize: 15,
+    color: 'black',
+    alignSelf: 'center',
+    paddingVertical: 3,
+  },
+  header: {
+    fontSize: 20,
+    color: 'black',
+    alignSelf: 'center',
+    // paddingVertical: 3,
+    top: -10,
+    fontWeight: 'bold',
+  },
+  remove: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    borderRadius: 100,
   },
 });

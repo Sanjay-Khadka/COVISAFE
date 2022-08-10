@@ -95,27 +95,34 @@ const CreateBed = () => {
   return (
     <View style={styles.maincontainer}>
       <NavigationHeader Title="Beds" />
-
-      <ScrollView style={styles.bedsContainer}>
-        {bed.map((beds, index) => (
-          <View key={index} style={styles.bedDetails}>
-            <View>
-              <Text style={styles.bedText}>Bed Number: {beds.bedNumber}</Text>
-              <Text style={styles.bedText}>Hospital: {beds.hospital}</Text>
-              <Text style={styles.bedText}>Hospital Address</Text>
-              <Text style={styles.bedText}>{beds.address}</Text>
+      {bed.length === 0 ? (
+        <View style={styles.emptyView}>
+          <Text style={styles.emptyViewMessage}>Bed list is empty !</Text>
+        </View>
+      ) : (
+        <ScrollView style={styles.bedsContainer}>
+          {bed.map((beds, index) => (
+            <View key={index} style={styles.bedDetails}>
+              <View>
+                <Text style={styles.bedText}>Bed Number: {beds.bedNumber}</Text>
+                <Text style={styles.bedText}>Hospital: {beds.hospital}</Text>
+                <Text style={styles.bedText}>Hospital Address</Text>
+                <Text style={styles.bedText}>{beds.address}</Text>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={styles.deletebutton}
+                  onPress={() => bedRemove(beds._id)}>
+                  <Icon color={'#c1121f'} name="trash" size={30} />
+                  <Text style={{color: 'black', fontWeight: 'bold'}}>
+                    Delete
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View>
-              <TouchableOpacity
-                style={styles.deletebutton}
-                onPress={() => bedRemove(beds._id)}>
-                <Icon color={'#c1121f'} name="trash" size={30} />
-                <Text style={{color: 'black', fontWeight: 'bold'}}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+          ))}
+        </ScrollView>
+      )}
 
       <View styles={{backgroundColor: 'white'}}>
         <FloatingButton
@@ -334,5 +341,19 @@ const styles = StyleSheet.create({
   textalign: {
     display: 'flex',
     width: width - 55,
+  },
+  emptyView: {
+    // backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    flex: 2,
+    height: height,
+    // backgroundColor: 'white',
+  },
+  emptyViewMessage: {
+    // fontWeight: '',
+    fontSize: 20,
+    color: colors.smalltext,
   },
 });

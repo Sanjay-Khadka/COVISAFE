@@ -8,7 +8,7 @@ import {getUserBedRequestList} from '../redux/actions/manageBed';
 
 const {height, width} = Dimensions.get('window');
 
-const UserBedRequest = () => {
+const UserBedRequest = ({navigation}) => {
   const dispatch = useDispatch();
 
   const userbedrequestlist = useSelector(

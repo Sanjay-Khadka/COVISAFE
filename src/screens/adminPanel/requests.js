@@ -1,11 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState} from 'react';
 import {Tab, TabView} from '@rneui/themed';
 import {View, StyleSheet} from 'react-native';
 import {NavigationHeader} from '../../components';
 import {OxygenRequest, BedRequest} from '../../components';
 const Requests = () => {
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
   return (
     <View style={styles.maincontainer}>
       <NavigationHeader Title="Requests" />

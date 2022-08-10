@@ -22,11 +22,12 @@ const oxygenInitial = {
 };
 const OxygenReducer = (state = oxygenInitial, action) => {
   switch (action.type) {
-    case fetchOxygen:
+    case fetchOxygen: {
       return {
         ...state,
         Oxygens: action.payload,
       };
+    }
     case addOxygen: {
       return {
         ...state,
