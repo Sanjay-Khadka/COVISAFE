@@ -27,7 +27,7 @@ export const createBed = (bedData, authToken) => {
       const {data} = await axios(config);
       // console.warn(data);
       dispatch({type: addBed, payload: data});
-      // eslint-disable-next-line no-lone-blocks
+      // eslint-disable-next-line no-lone-blocksfac
       {
         data.message
           ? ToastAndroid.showWithGravity(
