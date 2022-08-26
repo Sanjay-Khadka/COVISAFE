@@ -1,0 +1,131 @@
+[33mcommit ac81a3043ac9a947b98181855c900a051a4a9aea[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Mon Aug 15 08:35:25 2022 +0545
+
+    code formatting
+
+[33mcommit 281cb5fffd8927fd6a1087754bcfb254d5004b82[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Wed Aug 10 22:27:11 2022 +0545
+
+    made changes to focus on api calls
+
+[33mcommit 8be5776ecb7bbad54eab56304ddfe5b3936312dd[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Wed Aug 10 17:34:07 2022 +0545
+
+    make admin action created
+
+[33mcommit 2a4b79d5bfd1fc332c1d6c28a11361ee11db18c6[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Wed Aug 10 17:00:27 2022 +0545
+
+    added toast message on api responses
+
+[33mcommit 25f2b83f44fb796e80f15c29777841aaecb1b0b5[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Tue Aug 9 23:24:36 2022 +0545
+
+    added dropdowns in hospital name and addres in bed availability form
+
+[33mcommit f5c9827697204b6aac3f04ae4baad390bcf79f3f[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Tue Aug 9 22:14:22 2022 +0545
+
+    added user homescreen image
+
+[33mcommit d2b263469652e1c818d742fba7a5b565c562831a[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Tue Aug 9 21:39:41 2022 +0545
+
+    profile screen created update username actions created changed homepage
+
+[33mcommit 5e137dc6692ffa8a95c0344bc8c64b004b65f1a2[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Tue Aug 9 18:42:33 2022 +0545
+
+    added oxygen, bed request actions and screens for normal user
+
+[33mcommit 9747b02ab3970d34b0755fb75ace9a1879f5cd5c[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Fri Aug 5 10:53:12 2022 +0545
+
+    added deleteOxygenRequest action and reducer
+
+[33mcommit cbfb1c0a096f7bf5dd549a26410df0aab642b99a[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Fri Aug 5 10:52:37 2022 +0545
+
+    added delete oxygen request function
+
+[33mcommit c08845b1d46f8ba3b67ec450aaf3f6a08664b4ef[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Fri Aug 5 10:51:48 2022 +0545
+
+    added delete bed request function
+
+[33mcommit 95e47b990070d26a1e8880dd7c457f8b30c6fc75[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Thu Aug 4 23:08:34 2022 +0545
+
+    oxygen, bedrequest screen created actions for approving both oxygen and bed request created
+
+[33mcommit ba6a2410968c0dd51904e1a1275722670b927dea[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Thu Aug 4 19:47:52 2022 +0545
+
+    created bedRequest and oxygen request screens added actions for getOxygenrequest and createOxygenRequest
+
+[33mcommit 7e38b40539b473e578a085dbb33864312e93fb3e[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Wed Aug 3 17:48:32 2022 +0545
+
+    added remove bed actions, and reducers
+
+[33mcommit 623af269dc75a906c4af3ec091073636df5c11f6[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Wed Aug 3 16:29:25 2022 +0545
+
+    created floating button , added beds requests actions and reducers
+
+[33mcommit e0a9ac1c3352af534c863a76c3d13819f51c85d4[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Wed Aug 3 11:32:54 2022 +0545
+
+    signup error fixed
+
+[33mcommit 354c8ab567205d79150cf4e4419abe87615a61e9[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Wed Aug 3 11:16:32 2022 +0545
+
+    created cases Component and added toggle functionality in dashboard
+
+[33mcommit adf8ad4fa0a954b5680456502b93528c2846cc0a[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Tue Aug 2 22:55:59 2022 +0545
+
+    created togglebutton component for dashboard
+
+[33mcommit d772473ed9bec0c53ab5bdd871302fdd080e3c85[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Tue Aug 2 20:39:26 2022 +0545
+
+    added icons for admin panel tabs
+
+[33mcommit 3ad86b8ec9ee25ed626290ee19827613909be68f[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Tue Aug 2 19:13:52 2022 +0545
+
+    created admin panel screens
+
+[33mcommit 9b4069469fe019402cd05eb1030b5858b35e6c1d[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Mon Aug 1 17:27:37 2022 +0545
+
+    created userpanel and fetched  userslist from api
+
+[33mcommit 06eb5f530df3b6a2d9ab801a184650bffadeb71f[m
+Author: sanjay <sanjaykhadka@tuicms.edu.np>
+Date:   Wed Jul 6 12:54:29 2022 +0545
+
+    recovered corrputed git obj

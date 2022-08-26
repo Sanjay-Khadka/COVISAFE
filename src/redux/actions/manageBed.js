@@ -27,23 +27,23 @@ export const createBed = (bedData, authToken) => {
       const {data} = await axios(config);
       // console.warn(data);
       dispatch({type: addBed, payload: data});
-      // eslint-disable-next-line no-lone-blocksfac
+      // eslint-disable-next-line no-lone-blocks
       {
         data.message
           ? ToastAndroid.showWithGravity(
               data.message,
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.TOP,
             )
           : ToastAndroid.showWithGravity(
               'Sorry could not add Bed',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.TOP,
             );
       }
     } catch (error) {
       // console.warn(error);
-      ToastAndroid.showWithGravity(error, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(error, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
   };
 };
@@ -61,7 +61,7 @@ export const getAllBed = () => {
       dispatch({type: getbeds, payload: data});
     } catch (err) {
       // console.log(err);
-      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(err, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
   };
 };
@@ -84,18 +84,18 @@ export const deleteBed = bed_id => {
         data.success
           ? ToastAndroid.showWithGravity(
               data.success,
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.BOTTOM,
             )
           : ToastAndroid.showWithGravity(
               'Bed deletion failed',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.TOP,
             );
       }
     } catch (err) {
       // console.log(err);
-      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(err, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
   };
 };
@@ -116,18 +116,18 @@ export const getBedRequestList = () => {
         data.length !== 0
           ? ToastAndroid.showWithGravity(
               'Bed Request List fetched',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.BOTTOM,
             )
           : ToastAndroid.showWithGravity(
               'Bed Request list is empty',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.TOP,
             );
       }
     } catch (err) {
       // console.log(err);
-      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(err, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
   };
 };
@@ -141,25 +141,25 @@ export const getUserBedRequestList = userid => {
   return async dispatch => {
     try {
       const {data} = await axios(config);
-
+      console.log(data);
       dispatch({type: fetchUserBedReq, payload: data});
       // eslint-disable-next-line no-lone-blocks
       {
         data.length !== 0
           ? ToastAndroid.showWithGravity(
-              'Bed Request list fetched',
-              ToastAndroid.LONG,
+              'User Request list fetched',
+              ToastAndroid.SHORT,
               ToastAndroid.BOTTOM,
             )
           : ToastAndroid.showWithGravity(
               'You do not have any Bed Requests',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.TOP,
             );
       }
     } catch (err) {
       // console.log(err);
-      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(err, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
   };
 };
@@ -185,18 +185,18 @@ export const createBedRequest = (bedId, userId, requestUrgency) => {
         data._id
           ? ToastAndroid.showWithGravity(
               'Bed Request Submitted',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.BOTTOM,
             )
           : ToastAndroid.showWithGravity(
               'Sorry couldnot submit Bed request',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.TOP,
             );
       }
     } catch (err) {
       // console.log(err);
-      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(err, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
   };
 };
@@ -233,18 +233,18 @@ export const acceptBedRequest = BedRequestId => {
         data.message
           ? ToastAndroid.showWithGravity(
               data.message,
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.BOTTOM,
             )
           : ToastAndroid.showWithGravity(
               'Approving bed request failed',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.TOP,
             );
       }
     } catch (err) {
       // console.log(err);
-      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(err, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
   };
 };
@@ -266,18 +266,18 @@ export const deletebedReq = bedreqId => {
         data.success
           ? ToastAndroid.showWithGravity(
               data.success,
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.BOTTOM,
             )
           : ToastAndroid.showWithGravity(
               ' Failed to delete bed request',
-              ToastAndroid.LONG,
+              ToastAndroid.SHORT,
               ToastAndroid.TOP,
             );
       }
     } catch (err) {
       // console.log(err);
-      ToastAndroid.showWithGravity(err, ToastAndroid.LONG, ToastAndroid.TOP);
+      ToastAndroid.showWithGravity(err, ToastAndroid.SHORT, ToastAndroid.TOP);
     }
   };
 };
